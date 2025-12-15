@@ -1,40 +1,38 @@
-# Auto-discovery module loader for Home-Manager
-# Recursively finds and imports all default.nix files in this directory
-
-{ lib, config, pkgs, ... }:
-
+{ lib, ... }:
 let
-  # Get directory contents
-  getDir = path: builtins.readDir path;
 
-  # Recursively collect all files
+  inherit (lib)
+    collect
+    concatStringsSep
+    isString
+    mapAttrsRecursive
+    mapAttrs
+    ;
+
+  # Credit: @infinisil
+  # https://github.com/Infinisil/system/blob/df9232c4b6cec57874e531c350157c37863b91a0/config/new-modules/default.nix
+
+  getDir =
+    dir:
+    mapAttrs (file: type: if type == "directory" then getDir "${dir}/${file}" else type) (
+      builtins.readDir dir
+    );
+
   files =
-    let
-      go = dir: prefix:
-        let
-          contents = getDir dir;
-          process = name: type:
-            if type == "directory" then
-              go "${dir}/${name}" "${prefix}${name}/"
-            else
-              [ "${prefix}${name}" ];
-        in
-        builtins.concatLists (builtins.attrValues (builtins.mapAttrs process contents));
-    in
-    go ./. "";
+    dir: collect isString (mapAttrsRecursive (path: type: concatStringsSep "/" path) (getDir dir));
 
-  # Filter for default.nix files (excluding this import.nix)
-  defaultNixFiles = builtins.filter
-    (f: builtins.match ".*default\\.nix" f != null && f != "import.nix")
-    files;
-
-  # Convert to import paths
-  imports = map (f: ./. + "/${f}") defaultNixFiles;
+  getDefaultNix =
+    dir:
+    builtins.map (file: ./. + "/${file}") (
+      builtins.filter (file: builtins.baseNameOf file == "default.nix") (files dir)
+    );
 
 in
 {
-  inherit imports;
+
+  imports = getDefaultNix ./.;
 
   # Base home-manager config
   programs.home-manager.enable = true;
+
 }

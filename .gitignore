@@ -1,0 +1,41 @@
+# Secrets and sensitive files
+secrets/
+*.age
+*.gpg
+*.pem
+*.key
+*.crt
+.env
+.env.*
+credentials.json
+secrets.yaml
+secrets.nix
+
+# SOPS
+.sops.yaml.bak
+
+# Nix build outputs
+result
+result-*
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# Local overrides (for personal customizations not to be shared)
+local.nix
+local/

@@ -2,20 +2,16 @@
   description = "NixOS multi-system setup";
 
   inputs = {
-    nixpkgs.url = "github:nixpkgs/nixos-25.11";
-    unstable.url = "github:nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     nix = {
-      url = "github:NixOs/nix";
+      url = "github:NixOS/nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
-    };
-
-    ssh-keys = {
-      url = "https://github.com/a-maccormack.keys";
     };
 
     nixos-generators = {
@@ -35,7 +31,6 @@
     , unstable
     , nix
     , nix-index-database
-    , ssh-keys
     , nixos-generators
     , home-manager
     , ...
