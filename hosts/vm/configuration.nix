@@ -78,6 +78,9 @@
         presets.shared.cli-tools.curl.enable = true;
         presets.shared.cli-tools.nmap.enable = true;
         presets.shared.cli-tools.docker.enable = true;
+
+        # Enable shared apps
+        presets.shared.apps.nautilus.enable = true;
       };
     };
   };
