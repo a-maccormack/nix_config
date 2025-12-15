@@ -103,6 +103,10 @@ with lib;
           disable_hyprland_logo = true;
         };
 
+        binds = {
+          focus_wrap = false;
+        };
+
         bind = [
           "$mod, T, exec, $terminal"
           "$mod, D, exec, $menu"

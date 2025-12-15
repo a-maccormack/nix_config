@@ -21,7 +21,7 @@ with lib;
         rebuild = "sudo nixos-rebuild switch --flake .#vm";
       };
 
-      initExtra = ''
+      initContent = ''
         # TMUX
         export DISABLE_AUTO_TITLE='true'
 
