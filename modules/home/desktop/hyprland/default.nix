@@ -157,12 +157,44 @@ with lib;
 
           # Lock screen
           "$mod, Escape, exec, hyprlock"
+
+          # Enter move mode
+          "$mod, a, submap, move"
+
+          # Enter resize mode
+          "$mod, r, submap, resize"
         ];
 
         bindm = [
           "$mod, mouse:272, movewindow"
           "$mod, mouse:273, resizewindow"
         ];
+
+        # Submaps for move and resize modes
+        submap = {
+          move = {
+            bind = [
+              ", h, movewindow, l"
+              ", l, movewindow, r"
+              ", k, movewindow, u"
+              ", j, movewindow, d"
+              ", Escape, submap, reset"
+              ", Return, submap, reset"
+            ];
+          };
+          resize = {
+            binde = [
+              ", h, resizeactive, -20 0"
+              ", l, resizeactive, 20 0"
+              ", k, resizeactive, 0 -20"
+              ", j, resizeactive, 0 20"
+            ];
+            bind = [
+              ", Escape, submap, reset"
+              ", Return, submap, reset"
+            ];
+          };
+        };
 
         exec-once = [
           "waybar"

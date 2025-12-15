@@ -18,24 +18,7 @@ with lib;
           modules-right = [ "pulseaudio" "network" "cpu" "memory" "tray" ];
 
           "hyprland/workspaces" = {
-            format = "{id} {icon}";
-            format-icons = {
-              default = "";
-            };
-            window-rewrite-default = "";
-            window-rewrite = {
-              "class<kitty>" = "";
-              "class<firefox>" = "";
-              "class<chromium>" = "";
-              "class<google-chrome>" = "";
-              "class<nautilus>" = "";
-              "class<code>" = "󰨞";
-              "class<Code>" = "󰨞";
-              "class<spotify>" = "";
-              "class<discord>" = "";
-              "class<slack>" = "";
-              "class<telegram>" = "";
-            };
+            format = "{id}";
             on-click = "activate";
           };
 

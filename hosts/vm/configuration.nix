@@ -25,7 +25,11 @@
     users.users.mac = {
       isNormalUser = true;
       extraGroups = [ "wheel" "networkmanager" ];
+      shell = pkgs.zsh;
     };
+
+    # Enable zsh system-wide
+    programs.zsh.enable = true;
 
     # Base packages
     environment.systemPackages = with pkgs; [
@@ -55,7 +59,7 @@
 
         # Enable home presets
         presets.home.apps.firefox.enable = true;
-        presets.home.shell.bash.enable = true;
+        presets.home.shell.zsh.enable = true;
         presets.home.desktop.hyprland.enable = true;
         presets.home.desktop.kitty.enable = true;
         presets.home.desktop.waybar.enable = true;
