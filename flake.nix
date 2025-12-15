@@ -39,12 +39,8 @@
     let
       lib = nixpkgs.lib.extend (
         self: super: {
-          thurs = import ./lib {
-            inherit inputs;
-            lib = self;
-          };
+          my = import ./lib { lib = self; };
         }
-
       );
       supportedSystems = [
         "x86_64-linux"
