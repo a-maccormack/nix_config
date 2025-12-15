@@ -73,8 +73,8 @@ with lib;
 
     # Hyprpaper configuration
     xdg.configFile."hypr/hyprpaper.conf".text = ''
-      preload = ~/.config/wallpapers/background.png
-      wallpaper = ,~/.config/wallpapers/background.png
+      preload = ${config.home.homeDirectory}/.config/wallpapers/background.png
+      wallpaper = ,${config.home.homeDirectory}/.config/wallpapers/background.png
     '';
   };
 }

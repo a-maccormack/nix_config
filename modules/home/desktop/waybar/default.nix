@@ -13,22 +13,30 @@ with lib;
           layer = "top";
           position = "top";
           height = 30;
-          modules-left = [ "hyprland/workspaces" "wlr/taskbar" ];
+          modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
           modules-right = [ "pulseaudio" "network" "cpu" "memory" "tray" ];
 
           "hyprland/workspaces" = {
-            format = "{id}";
+            format = "{id} {icon}";
+            format-icons = {
+              default = "";
+            };
+            window-rewrite-default = "";
+            window-rewrite = {
+              "class<kitty>" = "";
+              "class<firefox>" = "";
+              "class<chromium>" = "";
+              "class<google-chrome>" = "";
+              "class<nautilus>" = "";
+              "class<code>" = "󰨞";
+              "class<Code>" = "󰨞";
+              "class<spotify>" = "";
+              "class<discord>" = "";
+              "class<slack>" = "";
+              "class<telegram>" = "";
+            };
             on-click = "activate";
-          };
-
-          "wlr/taskbar" = {
-            format = "{icon}";
-            icon-size = 18;
-            icon-theme = "hicolor";
-            tooltip-format = "{title}";
-            on-click = "activate";
-            on-click-middle = "close";
           };
 
           clock = {
@@ -85,16 +93,6 @@ with lib;
         #workspaces button.active {
           background-color: #89b4fa;
           color: #1e1e2e;
-        }
-
-        #taskbar button {
-          padding: 0 5px;
-          background: transparent;
-        }
-
-        #taskbar button.active {
-          background-color: rgba(137, 180, 250, 0.3);
-          border-radius: 5px;
         }
 
         #clock, #cpu, #memory, #network, #pulseaudio, #tray {
