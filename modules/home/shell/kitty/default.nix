@@ -3,9 +3,9 @@
 with lib;
 
 {
-  options.presets.home.desktop.kitty.enable = mkEnableOption "Kitty terminal";
+  options.presets.home.shell.kitty.enable = mkEnableOption "Kitty terminal";
 
-  config = mkIf config.presets.home.desktop.kitty.enable {
+  config = mkIf config.presets.home.shell.kitty.enable {
     programs.kitty = {
       enable = true;
       settings = {
