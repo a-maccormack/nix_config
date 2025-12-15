@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 
 with lib;
 
@@ -6,6 +6,14 @@ with lib;
   options.presets.home.desktop.hyprland.enable = mkEnableOption "Hyprland home-manager configuration";
 
   config = mkIf config.presets.home.desktop.hyprland.enable {
+    # Cursor theme - standard arrow cursor
+    home.pointerCursor = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+      size = 24;
+      gtk.enable = true;
+    };
+
     # Session variables for Wayland
     home.sessionVariables = {
       XDG_CURRENT_DESKTOP = "Hyprland";
@@ -15,6 +23,8 @@ with lib;
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       GDK_BACKEND = "wayland,x11";
       MOZ_ENABLE_WAYLAND = "1";
+      XCURSOR_THEME = "Adwaita";
+      XCURSOR_SIZE = "24";
     };
 
     # Hyprland configuration
@@ -26,6 +36,15 @@ with lib;
         "$menu" = "fuzzel";
 
         monitor = ",preferred,auto,1";
+
+        env = [
+          "XCURSOR_THEME,Adwaita"
+          "XCURSOR_SIZE,24"
+        ];
+
+        cursor = {
+          default_monitor = "";
+        };
 
         general = {
           gaps_in = 5;

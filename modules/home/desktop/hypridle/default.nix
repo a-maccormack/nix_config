@@ -68,10 +68,13 @@ with lib;
       }
     '';
 
+    # Copy wallpaper to home directory
+    home.file.".config/wallpapers/background.png".source = ../../../../assets/wallpapers/background.png;
+
     # Hyprpaper configuration
     xdg.configFile."hypr/hyprpaper.conf".text = ''
-      preload =
-      wallpaper = ,
+      preload = ~/.config/wallpapers/background.png
+      wallpaper = ,~/.config/wallpapers/background.png
     '';
   };
 }
