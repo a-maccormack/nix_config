@@ -87,7 +87,6 @@ with lib;
 
         dwindle = {
           pseudotile = true;
-          preserve_split = true;
         };
 
         input = {
@@ -115,16 +114,16 @@ with lib;
           "$mod, S, togglesplit,"
 
           # Move focus with vim keys
-          "$mod, h, movefocus, l, nowrap"
-          "$mod, l, movefocus, r, nowrap"
-          "$mod, k, movefocus, u, nowrap"
-          "$mod, j, movefocus, d, nowrap"
+          "$mod, h, movefocus, l"
+          "$mod, l, movefocus, r"
+          "$mod, k, movefocus, u"
+          "$mod, j, movefocus, d"
 
           # Move windows
-          "$mod SHIFT, h, movewindow, l, nowrap"
-          "$mod SHIFT, l, movewindow, r, nowrap"
-          "$mod SHIFT, k, movewindow, u, nowrap"
-          "$mod SHIFT, j, movewindow, d, nowrap"
+          "$mod SHIFT, h, movewindow, l"
+          "$mod SHIFT, l, movewindow, r"
+          "$mod SHIFT, k, movewindow, u"
+          "$mod SHIFT, j, movewindow, d"
 
           # Switch workspaces
           "$mod, 1, workspace, 1"
@@ -184,10 +183,10 @@ with lib;
       extraConfig = ''
         # Move mode submap
         submap = move
-        bind = , h, movewindow, l, nowrap
-        bind = , l, movewindow, r, nowrap
-        bind = , k, movewindow, u, nowrap
-        bind = , j, movewindow, d, nowrap
+        bind = , h, movewindow, l
+        bind = , l, movewindow, r
+        bind = , k, movewindow, u
+        bind = , j, movewindow, d
         bind = , Escape, submap, reset
         bind = , Return, submap, reset
         submap = reset
