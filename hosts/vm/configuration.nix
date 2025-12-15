@@ -54,6 +54,7 @@
         home.stateVersion = "25.11";
 
         # Enable home presets
+        presets.home.apps.firefox.enable = true;
         presets.home.shell.bash.enable = true;
         presets.home.desktop.hyprland.enable = true;
         presets.home.desktop.kitty.enable = true;

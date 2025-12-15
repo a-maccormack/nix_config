@@ -18,7 +18,25 @@ with lib;
           modules-right = [ "pulseaudio" "network" "cpu" "memory" "tray" ];
 
           "hyprland/workspaces" = {
-            format = "{name}";
+            format = "{icon}";
+            format-icons = {
+              active = "";
+              default = "";
+              empty = "";
+            };
+            window-rewrite-default = "";
+            window-rewrite = {
+              "class<kitty>" = "";
+              "class<firefox>" = "";
+              "class<chromium>" = "";
+              "class<google-chrome>" = "";
+              "class<nautilus>" = "";
+              "class<code>" = "󰨞";
+              "class<spotify>" = "";
+              "class<discord>" = "";
+              "class<slack>" = "";
+              "class<telegram>" = "";
+            };
             on-click = "activate";
           };
 
@@ -57,7 +75,7 @@ with lib;
       };
       style = ''
         * {
-          font-family: monospace;
+          font-family: "JetBrainsMono Nerd Font", monospace;
           font-size: 13px;
         }
 

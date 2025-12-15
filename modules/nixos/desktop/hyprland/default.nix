@@ -20,6 +20,11 @@ with lib;
     # PAM for hyprlock
     security.pam.services.hyprlock = {};
 
+    # Fonts
+    fonts.packages = with pkgs; [
+      nerd-fonts.jetbrains-mono
+    ];
+
     # System packages for Hyprland
     environment.systemPackages = with pkgs; [
       # Wayland utilities
@@ -27,7 +32,6 @@ with lib;
       wdisplays
       xdg-utils
       # Icons
-      adwaita-icon-theme
       hicolor-icon-theme
       # Hyprland ecosystem
       hyprpicker

@@ -82,8 +82,8 @@ with lib;
         };
 
         bind = [
-          "$mod, Return, exec, $terminal"
-          "$mod, Space, exec, $menu"
+          "$mod, T, exec, $terminal"
+          "$mod, D, exec, $menu"
           "$mod, Q, killactive,"
           "$mod, M, exit,"
           "$mod, E, exec, nautilus"
@@ -137,7 +137,7 @@ with lib;
           "$mod SHIFT, G, exec, grim - | wl-copy"
 
           # Lock screen
-          "$mod CTRL, l, exec, hyprlock"
+          "$mod, Escape, exec, hyprlock"
         ];
 
         bindm = [
