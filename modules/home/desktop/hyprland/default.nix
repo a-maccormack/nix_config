@@ -72,13 +72,16 @@ with lib;
 
         animations = {
           enabled = true;
-          bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+          bezier = [
+            "snappy, 0.25, 1, 0.5, 1"
+            "smoothOut, 0.36, 0, 0.66, -0.56"
+          ];
           animation = [
-            "windows, 1, 7, myBezier"
-            "windowsOut, 1, 7, default, popin 80%"
-            "border, 1, 10, default"
-            "fade, 1, 7, default"
-            "workspaces, 1, 6, default"
+            "windows, 1, 3, snappy, slide"
+            "windowsOut, 1, 3, smoothOut, slide"
+            "border, 1, 4, snappy"
+            "fade, 1, 3, snappy"
+            "workspaces, 1, 3, snappy, slidevert"
           ];
         };
 
