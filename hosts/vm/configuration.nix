@@ -65,6 +65,7 @@
         presets.home.apps.firefox.enable = true;
         presets.home.apps.neovim.enable = true;
         presets.home.shell.zsh.enable = true;
+        presets.home.shell.tmux.enable = true;
         presets.home.desktop.hyprland.enable = true;
         presets.home.desktop.kitty.enable = true;
         presets.home.desktop.waybar.enable = true;

@@ -13,7 +13,7 @@ with lib;
         font_size = 12;
         enable_audio_bell = false;
         window_padding_width = 5;
-        background_opacity = "0.95";
+        background_opacity = "0.85";
         confirm_os_window_close = 0;
       };
     };

@@ -20,6 +20,15 @@ with lib;
       shellAliases = {
         rebuild = "sudo nixos-rebuild switch --flake .#vm";
       };
+
+      initExtra = ''
+        # TMUX
+        export DISABLE_AUTO_TITLE='true'
+
+        if [ -z "$TMUX" ] && [ -n "$PS1" ]; then
+            exec tmux
+        fi
+      '';
     };
   };
 }
