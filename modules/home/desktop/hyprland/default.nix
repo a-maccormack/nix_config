@@ -170,32 +170,6 @@ with lib;
           "$mod, mouse:273, resizewindow"
         ];
 
-        # Submaps for move and resize modes
-        submap = {
-          move = {
-            bind = [
-              ", h, movewindow, l"
-              ", l, movewindow, r"
-              ", k, movewindow, u"
-              ", j, movewindow, d"
-              ", Escape, submap, reset"
-              ", Return, submap, reset"
-            ];
-          };
-          resize = {
-            binde = [
-              ", h, resizeactive, -20 0"
-              ", l, resizeactive, 20 0"
-              ", k, resizeactive, 0 -20"
-              ", j, resizeactive, 0 20"
-            ];
-            bind = [
-              ", Escape, submap, reset"
-              ", Return, submap, reset"
-            ];
-          };
-        };
-
         exec-once = [
           "waybar"
           "swaync"
@@ -203,6 +177,28 @@ with lib;
           "hypridle"
         ];
       };
+
+      extraConfig = ''
+        # Move mode submap
+        submap = move
+        bind = , h, movewindow, l
+        bind = , l, movewindow, r
+        bind = , k, movewindow, u
+        bind = , j, movewindow, d
+        bind = , Escape, submap, reset
+        bind = , Return, submap, reset
+        submap = reset
+
+        # Resize mode submap
+        submap = resize
+        binde = , h, resizeactive, -20 0
+        binde = , l, resizeactive, 20 0
+        binde = , k, resizeactive, 0 -20
+        binde = , j, resizeactive, 0 20
+        bind = , Escape, submap, reset
+        bind = , Return, submap, reset
+        submap = reset
+      '';
     };
   };
 }
