@@ -11,14 +11,14 @@ with lib;
       enable = true;
       settings = {
         general = {
-          lock_cmd = "pidof hyprlock || hyprlock";
+          lock_cmd = "pidof hyprlock || WLR_RENDERER_ALLOW_SOFTWARE=1 hyprlock";
           before_sleep_cmd = "loginctl lock-session";
           after_sleep_cmd = "hyprctl dispatch dpms on";
         };
         listener = [
           {
             timeout = 300;
-            on-timeout = "hyprlock";
+            on-timeout = "WLR_RENDERER_ALLOW_SOFTWARE=1 hyprlock";
           }
           {
             timeout = 600;

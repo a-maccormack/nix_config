@@ -164,7 +164,7 @@ with lib;
           "$mod SHIFT, G, exec, grim - | wl-copy"
 
           # Lock screen
-          "$mod, Escape, exec, hyprlock"
+          "$mod, Escape, exec, WLR_RENDERER_ALLOW_SOFTWARE=1 hyprlock"
 
           # Enter move mode
           "$mod, a, submap, move"
