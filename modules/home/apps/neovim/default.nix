@@ -70,19 +70,18 @@ with lib;
       ];
     };
 
-    # Lua config files
-    xdg.configFile = {
-      "nvim/init.lua".source = ./config/init.lua;
-      "nvim/lua/scripts/init.lua".source = ./config/lua/scripts/init.lua;
-      "nvim/lua/scripts/set.lua".source = ./config/lua/scripts/set.lua;
-      "nvim/lua/scripts/remap.lua".source = ./config/lua/scripts/remap.lua;
-      "nvim/after/plugin/lsp.lua".source = ./config/after/plugin/lsp.lua;
-      "nvim/after/plugin/telescope.lua".source = ./config/after/plugin/telescope.lua;
-      "nvim/after/plugin/treesitter.lua".source = ./config/after/plugin/treesitter.lua;
-      "nvim/after/plugin/theme.lua".source = ./config/after/plugin/theme.lua;
-      "nvim/after/plugin/gitsigns.lua".source = ./config/after/plugin/gitsigns.lua;
-      "nvim/after/plugin/commentary.lua".source = ./config/after/plugin/commentary.lua;
-      "nvim/after/plugin/cmp.lua".source = ./config/after/plugin/cmp.lua;
+    # Recursive source for entire nvim config directory
+    xdg.configFile."nvim" = {
+      source = ./config;
+      recursive = true;
     };
+
+    # Clean up old nvim config before linking new one
+    home.activation.cleanNvimConfig = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
+      if [ -d "$HOME/.config/nvim" ] && [ ! -L "$HOME/.config/nvim" ]; then
+        echo "Removing old nvim config directory..."
+        rm -rf "$HOME/.config/nvim"
+      fi
+    '';
   };
 }
