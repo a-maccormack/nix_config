@@ -29,76 +29,89 @@ with lib;
       };
     };
 
-    # Hyprlock configuration
-    xdg.configFile."hypr/hyprlock.conf".text = ''
-      background {
-        monitor =
-        path = screenshot
-        blur_passes = 5
-        blur_size = 8
-      }
+    # Hyprlock configuration (native home-manager module)
+    programs.hyprlock = {
+      enable = true;
+      settings = {
+        general = {
+          hide_cursor = true;
+          grace = 0;
+        };
 
-      input-field {
-        monitor =
-        size = 250, 50
-        outline_thickness = 3
-        dots_size = 0.4
-        dots_spacing = 0.15
-        dots_center = true
-        dots_rounding = -1
-        outer_color = rgb(89b4fa)
-        inner_color = rgb(1e1e2e)
-        font_color = rgb(cdd6f4)
-        fade_on_empty = true
-        fade_timeout = 1000
-        placeholder_text = <i>Password...</i>
-        hide_input = false
-        check_color = rgb(f9e2af)
-        fail_color = rgb(f38ba8)
-        fail_text = <i>Wrong password!</i>
-        fail_timeout = 2000
-        fail_transition = 300
-        capslock_color = rgb(fab387)
-        position = 0, -20
-        halign = center
-        valign = center
-      }
+        background = [
+          {
+            monitor = "";
+            path = "screenshot";
+            blur_passes = 5;
+            blur_size = 8;
+          }
+        ];
 
-      label {
-        monitor =
-        text = $TIME
-        font_size = 64
-        font_family = monospace
-        color = rgb(cdd6f4)
-        position = 0, 100
-        halign = center
-        valign = center
-      }
+        input-field = [
+          {
+            monitor = "";
+            size = "250, 50";
+            outline_thickness = 3;
+            dots_size = 0.4;
+            dots_spacing = 0.15;
+            dots_center = true;
+            dots_rounding = -1;
+            outer_color = "rgb(89b4fa)";
+            inner_color = "rgb(1e1e2e)";
+            font_color = "rgb(cdd6f4)";
+            fade_on_empty = true;
+            fade_timeout = 1000;
+            placeholder_text = "<i>Password...</i>";
+            hide_input = false;
+            check_color = "rgb(f9e2af)";
+            fail_color = "rgb(f38ba8)";
+            fail_text = "<i>Wrong password!</i>";
+            fail_timeout = 2000;
+            fail_transition = 300;
+            capslock_color = "rgb(fab387)";
+            position = "0, -20";
+            halign = "center";
+            valign = "center";
+          }
+        ];
 
-      # Date label
-      label {
-        monitor =
-        text = cmd[update:60000] date +"%A, %B %d"
-        font_size = 20
-        font_family = monospace
-        color = rgb(a6adc8)
-        position = 0, 40
-        halign = center
-        valign = center
-      }
-
-      # User greeting
-      label {
-        monitor =
-        text = Welcome back, $USER
-        font_size = 16
-        font_family = monospace
-        color = rgb(a6adc8)
-        position = 0, -80
-        halign = center
-        valign = center
-      }
-    '';
+        label = [
+          # Time
+          {
+            monitor = "";
+            text = "$TIME";
+            font_size = 64;
+            font_family = "monospace";
+            color = "rgb(cdd6f4)";
+            position = "0, 100";
+            halign = "center";
+            valign = "center";
+          }
+          # Date
+          {
+            monitor = "";
+            text = ''cmd[update:60000] date +"%A, %B %d"'';
+            font_size = 20;
+            font_family = "monospace";
+            color = "rgb(a6adc8)";
+            position = "0, 40";
+            halign = "center";
+            valign = "center";
+          }
+          # Greeting
+          {
+            monitor = "";
+            text = "Welcome back, $USER";
+            font_size = 16;
+            font_family = "monospace";
+            color = "rgb(a6adc8)";
+            position = "0, -80";
+            halign = "center";
+            valign = "center";
+          }
+        ];
+      };
+    };
 
     # Copy wallpaper to home directory
     home.file.".config/wallpapers/background.png".source = ../../../../assets/wallpapers/background.png;
