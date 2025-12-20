@@ -31,16 +31,6 @@
     # Enable zsh system-wide
     programs.zsh.enable = true;
 
-    # Base packages
-    environment.systemPackages = with pkgs; [
-      vim
-      git
-      curl
-      wget
-      htop
-      tree
-    ];
-
     # Enable presets
     presets.system.boot.enable = true;
     presets.system.nix.flakes.enable = true;
@@ -67,10 +57,6 @@
         presets.home.shell.zsh.enable = true;
         presets.home.shell.tmux.enable = true;
         presets.home.desktop.hyprland.enable = true;
-        presets.home.shell.kitty.enable = true;
-        presets.home.desktop.waybar.enable = true;
-        presets.home.desktop.fuzzel.enable = true;
-        presets.home.desktop.hypridle.enable = true;
 
         # Enable shared CLI tools
         presets.shared.cli-tools.enable = true;

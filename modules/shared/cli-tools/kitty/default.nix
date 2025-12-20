@@ -3,9 +3,9 @@
 with lib;
 
 {
-  options.presets.home.shell.kitty.enable = mkEnableOption "Kitty terminal";
+  options.presets.shared.cli-tools.kitty.enable = mkEnableOption "Kitty terminal";
 
-  config = mkIf config.presets.home.shell.kitty.enable {
+  config = mkIf config.presets.shared.cli-tools.kitty.enable {
     programs.kitty = {
       enable = true;
       settings = {

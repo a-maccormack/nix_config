@@ -6,6 +6,11 @@ with lib;
   options.presets.home.desktop.hyprland.enable = mkEnableOption "Hyprland home-manager configuration";
 
   config = mkIf config.presets.home.desktop.hyprland.enable {
+    # Enable related desktop modules
+    presets.home.desktop.waybar.enable = true;
+    presets.home.desktop.fuzzel.enable = true;
+    presets.home.desktop.hypridle.enable = true;
+
     # Cursor theme - standard arrow cursor
     home.pointerCursor = {
       name = "Adwaita";
