@@ -17,6 +17,11 @@
       firewall.enable = true;
     };
 
+    # Bluetooth
+    hardware.bluetooth.enable = true;
+    hardware.bluetooth.powerOnBoot = true;
+    services.blueman.enable = true;
+
     # Localization
     time.timeZone = "America/Santiago";
     i18n.defaultLocale = "en_US.UTF-8";
@@ -57,6 +62,7 @@
         presets.home.shell.zsh.enable = true;
         presets.home.shell.tmux.enable = true;
         presets.home.desktop.hyprland.enable = true;
+        presets.home.desktop.blueman.enable = true;
 
         # Enable shared CLI tools
         presets.shared.cli-tools.enable = true;
