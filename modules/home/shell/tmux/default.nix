@@ -66,8 +66,8 @@ with lib;
         # Alt + Shift + S -> Choose and switch, then kill current session
         bind-key -n M-S choose-session -Z "run-shell 'tmux switch-client -t %% && tmux kill-session -t #{session_name}'"
 
-        # Preset binding
-        bind -n M-p display-popup -E "~/scripts/launch_tmuxp_indexed.sh"
+        # Preset binding (tmuxp launcher)
+        bind -n M-p display-popup -E "$HOME/.local/bin/launch-tmuxp"
       '';
     };
   };
