@@ -1,26 +1,17 @@
-{ pkgs, ... }:
+{ pkgs, modulesPath, ... }:
 {
-  imports = [ ];
+  imports = [
+    "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
+  ];
 
   config = {
-    system.stateVersion = "25.11";
+    # Flakes support (not in default installer)
+    nix.settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
-    nix = {
-      settings.experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-
-    };
-
-    systemd.network.enable = true;
-
-    networking = {
-      useDHCP = true;
-      useNetworkd = true;
-      hostName = "nixos";
-    };
-
+    # Your preferred tools
     environment.systemPackages = with pkgs; [
       neovim
       git
