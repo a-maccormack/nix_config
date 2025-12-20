@@ -20,6 +20,12 @@
     # Bluetooth
     hardware.bluetooth.enable = true;
     hardware.bluetooth.powerOnBoot = true;
+
+    # IPU6
+    hardware.ipu6 = {
+      enable = true;
+      platform = "ipu6ep";
+    };
     services.blueman.enable = true;
 
     # Localization
