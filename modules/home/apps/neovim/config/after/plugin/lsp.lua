@@ -1,44 +1,49 @@
 ---
--- LSP Configuration (Nix-native - no Mason)
+-- LSP Configuration (Neovim 0.11+ native API)
 ---
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-local on_attach = function(client, bufnr)
-	local opts = { buffer = bufnr, silent = true }
+-- LSP attach keybindings via autocmd
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		local bufnr = args.buf
+		local opts = { buffer = bufnr, silent = true }
 
-	if client.name == "ts_ls" then
-		client.server_capabilities.documentFormattingProvider = false
-		client.server_capabilities.documentRangeFormattingProvider = false
-	end
+		if client.name == "ts_ls" then
+			client.server_capabilities.documentFormattingProvider = false
+			client.server_capabilities.documentRangeFormattingProvider = false
+		end
 
-	if client.name == "elixirls" then
-		client.server_capabilities.documentFormattingProvider = true
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = bufnr,
-			callback = function()
-				vim.lsp.buf.format({ async = true })
-			end,
-		})
-	end
+		if client.name == "elixirls" then
+			client.server_capabilities.documentFormattingProvider = true
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.buf.format({ async = true })
+				end,
+			})
+		end
 
-	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-	vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-	vim.keymap.set("n", "<leader>f", function()
-		require("conform").format({ async = true, lsp_fallback = true })
-	end, opts)
+		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+		vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+		vim.keymap.set("n", "<leader>f", function()
+			require("conform").format({ async = true, lsp_fallback = true })
+		end, opts)
 
-	vim.keymap.set("n", "<leader>oi", function()
-		vim.lsp.buf.code_action({
-			context = { only = { "source.organizeImports", "source.fixAll" } },
-			apply = true,
-		})
-	end, opts)
-end
+		vim.keymap.set("n", "<leader>oi", function()
+			vim.lsp.buf.code_action({
+				context = { only = { "source.organizeImports", "source.fixAll" } },
+				apply = true,
+			})
+		end, opts)
+	end,
+})
 
 vim.diagnostic.config({
 	virtual_text = false,
@@ -47,21 +52,25 @@ vim.diagnostic.config({
 	underline = true,
 })
 
--- LSP server configurations
-local lspconfig = require("lspconfig")
-
-lspconfig.ruff.setup({
-	on_attach = on_attach,
+-- LSP server configurations using vim.lsp.config (Neovim 0.11+)
+vim.lsp.config.ruff = {
+	cmd = { "ruff", "server" },
+	filetypes = { "python" },
+	root_markers = { "pyproject.toml", "ruff.toml", ".ruff.toml", "setup.py", "setup.cfg", ".git" },
 	capabilities = capabilities,
-})
+}
 
-lspconfig.pyright.setup({
-	on_attach = on_attach,
+vim.lsp.config.pyright = {
+	cmd = { "pyright-langserver", "--stdio" },
+	filetypes = { "python" },
+	root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "pyrightconfig.json", ".git" },
 	capabilities = capabilities,
-})
+}
 
-lspconfig.lua_ls.setup({
-	on_attach = on_attach,
+vim.lsp.config.lua_ls = {
+	cmd = { "lua-language-server" },
+	filetypes = { "lua" },
+	root_markers = { ".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "stylua.toml", "selene.toml", "selene.yml", ".git" },
 	capabilities = capabilities,
 	settings = {
 		Lua = {
@@ -74,16 +83,19 @@ lspconfig.lua_ls.setup({
 			telemetry = { enable = false },
 		},
 	},
-})
+}
 
-lspconfig.rust_analyzer.setup({
-	on_attach = on_attach,
+vim.lsp.config.rust_analyzer = {
+	cmd = { "rust-analyzer" },
+	filetypes = { "rust" },
+	root_markers = { "Cargo.toml", "rust-project.json", ".git" },
 	capabilities = capabilities,
-})
+}
 
-lspconfig.elixirls.setup({
+vim.lsp.config.elixirls = {
 	cmd = { "elixir-ls" },
-	on_attach = on_attach,
+	filetypes = { "elixir", "eelixir", "heex", "surface" },
+	root_markers = { "mix.exs", ".git" },
 	capabilities = capabilities,
 	settings = {
 		elixirLS = {
@@ -92,20 +104,26 @@ lspconfig.elixirls.setup({
 			suggestSpecs = true,
 		},
 	},
-})
+}
 
-lspconfig.terraformls.setup({
-	on_attach = on_attach,
+vim.lsp.config.terraformls = {
+	cmd = { "terraform-ls", "serve" },
+	filetypes = { "terraform", "terraform-vars", "hcl" },
+	root_markers = { ".terraform", ".git" },
 	capabilities = capabilities,
-})
+}
 
-lspconfig.ts_ls.setup({
-	on_attach = on_attach,
+vim.lsp.config.ts_ls = {
+	cmd = { "typescript-language-server", "--stdio" },
+	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+	root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
 	capabilities = capabilities,
-})
+}
 
-lspconfig.nil_ls.setup({
-	on_attach = on_attach,
+vim.lsp.config.nil_ls = {
+	cmd = { "nil" },
+	filetypes = { "nix" },
+	root_markers = { "flake.nix", ".git" },
 	capabilities = capabilities,
 	settings = {
 		["nil"] = {
@@ -114,7 +132,10 @@ lspconfig.nil_ls.setup({
 			},
 		},
 	},
-})
+}
+
+-- Enable all configured LSP servers
+vim.lsp.enable({ "ruff", "pyright", "lua_ls", "rust_analyzer", "elixirls", "terraformls", "ts_ls", "nil_ls" })
 
 -- Conform formatter setup
 require("conform").setup({
