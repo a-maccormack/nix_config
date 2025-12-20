@@ -34,23 +34,31 @@ with lib;
       background {
         monitor =
         path = screenshot
-        blur_passes = 3
+        blur_passes = 5
         blur_size = 8
       }
 
       input-field {
         monitor =
-        size = 200, 50
+        size = 250, 50
         outline_thickness = 3
-        dots_size = 0.33
+        dots_size = 0.4
         dots_spacing = 0.15
         dots_center = true
+        dots_rounding = -1
         outer_color = rgb(89b4fa)
         inner_color = rgb(1e1e2e)
         font_color = rgb(cdd6f4)
         fade_on_empty = true
+        fade_timeout = 1000
         placeholder_text = <i>Password...</i>
         hide_input = false
+        check_color = rgb(f9e2af)
+        fail_color = rgb(f38ba8)
+        fail_text = <i>Wrong password!</i>
+        fail_timeout = 2000
+        fail_transition = 300
+        capslock_color = rgb(fab387)
         position = 0, -20
         halign = center
         valign = center
@@ -62,7 +70,31 @@ with lib;
         font_size = 64
         font_family = monospace
         color = rgb(cdd6f4)
-        position = 0, 80
+        position = 0, 100
+        halign = center
+        valign = center
+      }
+
+      # Date label
+      label {
+        monitor =
+        text = cmd[update:60000] date +"%A, %B %d"
+        font_size = 20
+        font_family = monospace
+        color = rgb(a6adc8)
+        position = 0, 40
+        halign = center
+        valign = center
+      }
+
+      # User greeting
+      label {
+        monitor =
+        text = Welcome back, $USER
+        font_size = 16
+        font_family = monospace
+        color = rgb(a6adc8)
+        position = 0, -80
         halign = center
         valign = center
       }
