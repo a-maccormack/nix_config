@@ -70,6 +70,18 @@
             nix-index-database.nixosModules.nix-index
           ];
         };
+
+        "x1-carbon-g10" = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+            inherit lib;
+          };
+
+          modules = [
+            ./hosts/x1-carbon-g10/configuration.nix
+            nix-index-database.nixosModules.nix-index
+          ];
+        };
       };
 
       packages = forEachSupportedSystem
