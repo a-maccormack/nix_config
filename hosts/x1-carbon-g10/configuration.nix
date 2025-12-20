@@ -26,6 +26,7 @@
       enable = true;
       platform = "ipu6ep";
     };
+    services.v4l2-relayd.enable = true;
     services.blueman.enable = true;
 
     # Localization
