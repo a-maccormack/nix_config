@@ -35,13 +35,13 @@ with lib;
       settings = {
         general = {
           hide_cursor = true;
-          grace = 0;
         };
 
         background = [
           {
             monitor = "";
-            path = "screenshot";
+            # Use wallpaper instead of screenshot (more reliable in VMs)
+            path = "${config.home.homeDirectory}/.config/wallpapers/background.png";
             blur_passes = 5;
             blur_size = 8;
           }
@@ -66,8 +66,6 @@ with lib;
             check_color = "rgb(f9e2af)";
             fail_color = "rgb(f38ba8)";
             fail_text = "<i>Wrong password!</i>";
-            fail_timeout = 2000;
-            fail_transition = 300;
             capslock_color = "rgb(fab387)";
             position = "0, -20";
             halign = "center";
