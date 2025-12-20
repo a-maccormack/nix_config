@@ -28,11 +28,11 @@ with lib;
         set -g mouse on
         bind -n M-c copy-mode
 
-        # Split pane to the right with Ctrl+Alt+R
-        bind -n C-M-r split-window -h
+        # Split pane to the right with Ctrl+Alt+R (inherit cwd)
+        bind -n C-M-r split-window -h -c "#{pane_current_path}"
 
-        # Split pane down with Ctrl+Alt+D
-        bind -n C-M-d split-window -v
+        # Split pane down with Ctrl+Alt+D (inherit cwd)
+        bind -n C-M-d split-window -v -c "#{pane_current_path}"
 
         # Zoom into pane
         bind -n M-f resize-pane -Z
