@@ -47,6 +47,10 @@ with lib;
       # Screenshot
       grim
       slurp
+      # Audio/brightness control
+      brightnessctl
+      pamixer
+      swayosd
     ];
   };
 }

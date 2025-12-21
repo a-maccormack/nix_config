@@ -15,7 +15,19 @@ with lib;
           height = 30;
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
-          modules-right = [ "pulseaudio" "network" "cpu" "memory" "tray" ];
+          modules-right = [ "pulseaudio" "network" "battery" "cpu" "memory" "tray" ];
+
+          battery = {
+            states = {
+              warning = 30;
+              critical = 15;
+            };
+            format = "{icon} {capacity}%";
+            format-charging = "󰂄 {capacity}%";
+            format-plugged = "󰚥 {capacity}%";
+            format-alt = "{icon} {time} ({capacity}%)";
+            format-icons = [ "󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+          };
 
           "hyprland/workspaces" = {
             format = "{id}";
@@ -78,8 +90,25 @@ with lib;
           color: #1e1e2e;
         }
 
-        #clock, #cpu, #memory, #network, #pulseaudio, #tray {
+        #clock, #cpu, #memory, #network, #pulseaudio, #battery, #tray {
           padding: 0 10px;
+        }
+
+        #battery.charging, #battery.plugged {
+          color: #a6e3a1;
+        }
+
+        #battery.warning:not(.charging) {
+          color: #f9e2af;
+        }
+
+        #battery.critical:not(.charging) {
+          color: #f38ba8;
+          animation: blink 0.5s linear infinite alternate;
+        }
+
+        @keyframes blink {
+          to { color: #1e1e2e; }
         }
       '';
     };

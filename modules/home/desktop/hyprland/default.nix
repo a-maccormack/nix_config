@@ -173,6 +173,22 @@ with lib;
           "$mod, r, submap, resize"
         ];
 
+        # Repeat binds for volume/brightness (hold key to repeat)
+        binde = [
+          # Volume
+          ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise"
+          ", XF86AudioLowerVolume, exec, swayosd-client --output-volume lower"
+          # Brightness
+          ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise"
+          ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower"
+        ];
+
+        # Non-repeat binds for mute toggles
+        bindl = [
+          ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
+          ", XF86AudioMicMute, exec, swayosd-client --input-volume mute-toggle"
+        ];
+
         bindm = [
           "$mod, mouse:272, movewindow"
           "$mod, mouse:273, resizewindow"
@@ -183,6 +199,7 @@ with lib;
           "swaync"
           "hyprpaper"
           "hypridle"
+          "swayosd-server"
         ];
       };
 
