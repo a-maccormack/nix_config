@@ -36,7 +36,7 @@ in
     ];
 
     boot.extraModprobeConfig = ''
-      options v4l2loopback exclusive_caps=1 card_label="Intel MIPI Camera"
+      options v4l2loopback video_nr=32 card_label="Intel MIPI Camera" max_buffers=2
     '';
 
     # 2. Firmware - use nixpkgs
@@ -68,11 +68,17 @@ in
       wantedBy = [ "multi-user.target" ];
 
       script = ''
-        export GST_PLUGIN_SYSTEM_PATH_1_0=${icamerasrcPkg}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-bad}/lib/gstreamer-1.0:${pkgs.gst_all_1.gstreamer}/lib/gstreamer-1.0
+        export GST_PLUGIN_SYSTEM_PATH_1_0=${icamerasrcPkg}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-bad}/lib/gstreamer-1.0:${pkgs.gst_all_1.gstreamer.out}/lib/gstreamer-1.0
 
-        ${pkgs.gst_all_1.gstreamer}/bin/gst-launch-1.0 \
-          icamerasrc ! \
-          video/x-raw,format=NV12,width=1280,height=720,framerate=30/1 ! \
+        # Set the v4l2loopback output format before starting the pipeline
+        ${pkgs.v4l-utils}/bin/v4l2-ctl -d /dev/video32 --set-fmt-video=width=1280,height=720,pixelformat=YUYV
+
+        # Wait for camera sensor to initialize
+        sleep 2
+
+        ${pkgs.gst_all_1.gstreamer}/bin/gst-launch-1.0 -v \
+          icamerasrc device-name=ov2740-uf ! \
+          video/x-raw,format=NV12,width=1280,height=720 ! \
           videoconvert ! \
           video/x-raw,format=YUY2 ! \
           v4l2sink device=/dev/video32
@@ -84,14 +90,20 @@ in
       };
     };
 
-    # 5. GStreamer Environment
+    # 5. Udev rules for IPU6 devices
+    services.udev.extraRules = ''
+      # IPU6 PSYS device - allow video group access
+      KERNEL=="ipu-psys[0-9]*", GROUP="video", MODE="0660"
+    '';
+
+    # 6. GStreamer Environment
     environment.sessionVariables = {
       GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [
         icamerasrcPkg
         pkgs.gst_all_1.gst-plugins-base
         pkgs.gst_all_1.gst-plugins-good
         pkgs.gst_all_1.gst-plugins-bad
-        pkgs.gst_all_1.gstreamer
+        pkgs.gst_all_1.gstreamer.out
       ];
     };
   };
