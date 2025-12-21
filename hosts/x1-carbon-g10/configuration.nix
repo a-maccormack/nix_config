@@ -72,7 +72,7 @@
         presets.shared.cli-tools.enable = true;
 
         # Enable shared apps
-        presets.shared.apps.nautilus.enable = true;
+        presets.shared.apps.enable = true;
       };
     };
   };

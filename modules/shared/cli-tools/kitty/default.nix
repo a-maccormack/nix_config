@@ -15,6 +15,7 @@ with lib;
         window_padding_width = 5;
         background_opacity = "0.85";
         confirm_os_window_close = 0;
+        cursor_shape = "block";
       };
     };
   };

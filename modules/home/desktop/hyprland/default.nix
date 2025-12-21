@@ -19,6 +19,29 @@ with lib;
       gtk.enable = true;
     };
 
+    # Dark mode preference
+    dconf = {
+      enable = true;
+      settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+    };
+
+    gtk = {
+      enable = true;
+      theme = {
+        name = "Adwaita-dark";
+        package = pkgs.gnome-themes-extra;
+      };
+    };
+
+    qt = {
+      enable = true;
+      platformTheme.name = "adwaita";
+      style = {
+        name = "adwaita-dark";
+        package = pkgs.adwaita-qt;
+      };
+    };
+
     # Session variables for Wayland
     home.sessionVariables = {
       XDG_CURRENT_DESKTOP = "Hyprland";

@@ -14,6 +14,7 @@ with lib;
           layer = "overlay";
           width = 40;
           font = "monospace:size=12";
+          icon-theme = "hicolor";
         };
         colors = {
           background = "1e1e2edd";
