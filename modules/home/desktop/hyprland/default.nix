@@ -119,7 +119,9 @@ with lib;
         };
 
         input = {
-          kb_layout = "us";
+          kb_layout = "us,es";
+          kb_variant = "intl,";
+          kb_options = "grp:win_space_toggle";
           follow_mouse = 1;
           repeat_rate = 50;
           repeat_delay = 300;
@@ -143,6 +145,9 @@ with lib;
           "$mod, F, fullscreen,"
           # "$mod, P, pseudo,"
           "$mod, S, togglesplit,"
+
+          # Switch keyboard layout (US intl / Spanish)
+          "$mod, I, exec, hyprctl switchxkblayout all next"
 
           # Move focus with vim keys
           "$mod, h, movefocus, l"

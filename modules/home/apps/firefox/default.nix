@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 
 with lib;
 
@@ -8,6 +8,28 @@ with lib;
   config = mkIf config.presets.home.apps.firefox.enable {
     programs.firefox = {
       enable = true;
+      profiles = {
+        personal = {
+          id = 0;
+          name = "Personal";
+          isDefault = true;
+        };
+        shinkansen = {
+          id = 1;
+          name = "Shinkansen";
+        };
+      };
+    };
+
+    # Override Firefox desktop entry to launch profile manager
+    xdg.desktopEntries.firefox = {
+      name = "Firefox";
+      genericName = "Web Browser";
+      exec = "firefox --ProfileManager";
+      icon = "firefox";
+      terminal = false;
+      categories = [ "Network" "WebBrowser" ];
+      mimeType = [ "text/html" "text/xml" "application/xhtml+xml" "application/vnd.mozilla.xul+xml" "x-scheme-handler/http" "x-scheme-handler/https" ];
     };
   };
 }

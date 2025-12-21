@@ -15,7 +15,7 @@ with lib;
           height = 30;
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
-          modules-right = [ "pulseaudio" "pulseaudio#mic" "bluetooth" "network" "battery" "cpu" "memory" "tray" ];
+          modules-right = [ "hyprland/language" "pulseaudio" "pulseaudio#mic" "bluetooth" "network" "battery" "cpu" "memory" "tray" ];
 
           battery = {
             states = {
@@ -87,6 +87,12 @@ with lib;
             on-click = "pavucontrol";
           };
 
+          "hyprland/language" = {
+            format = "󰌌 {}";
+            format-en = "US";
+            format-es = "ES";
+          };
+
           tray = {
             spacing = 10;
           };
@@ -115,7 +121,7 @@ with lib;
           color: #1e1e2e;
         }
 
-        #clock, #cpu, #memory, #network, #pulseaudio, #battery, #bluetooth, #tray {
+        #clock, #cpu, #memory, #network, #pulseaudio, #battery, #bluetooth, #language, #tray {
           padding: 0 10px;
         }
 
