@@ -6,9 +6,14 @@ let
     kernel = config.boot.kernelPackages.kernel;
   };
 
-  # Use nixpkgs packages for userspace (they're well-tested)
+  # Use the correct ipu6ep HAL
   halPkg = pkgs.ipu6ep-camera-hal;
-  icamerasrcPkg = pkgs.gst_all_1.icamerasrc-ipu6ep;
+
+  # Build custom icamerasrc linked against the correct ipu6ep HAL
+  icamerasrcPkg = pkgs.callPackage ./pkgs/icamerasrc.nix {
+    intel-ipu6-camera-hal = halPkg;
+    inherit (pkgs) gst_all_1 libdrm libva;
+  };
 in
 {
   options.hardware.ipu6-custom.enable = lib.mkEnableOption "Custom IPU6 stack with v4l2loopback";
@@ -50,26 +55,27 @@ in
       # Test script
       (pkgs.writeShellScriptBin "ipu6-test" ''
         export GST_PLUGIN_SYSTEM_PATH_1_0=${icamerasrcPkg}/lib/gstreamer-1.0:$GST_PLUGIN_SYSTEM_PATH_1_0
-        gst-launch-1.0 icamerasrc device-name=0 ! video/x-raw,format=NV12,width=1280,height=720 ! videoconvert ! autovideosink
+        gst-launch-1.0 icamerasrc ! video/x-raw,format=NV12,width=1280,height=720 ! videoconvert ! autovideosink
       '')
     ];
 
     # 4. Systemd Service for Loopback
+    # Note: v4l2loopback creates /dev/video32 (after IPU6's video0-31)
     systemd.services.ipu6-loopback = {
       description = "IPU6 Camera to V4L2 Loopback";
-      after = [ "sys-subsystem-video-devices-video0.device" ];
-      wants = [ "sys-subsystem-video-devices-video0.device" ];
+      after = [ "sys-subsystem-video-devices-video32.device" ];
+      wants = [ "sys-subsystem-video-devices-video32.device" ];
       wantedBy = [ "multi-user.target" ];
 
       script = ''
         export GST_PLUGIN_SYSTEM_PATH_1_0=${icamerasrcPkg}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-bad}/lib/gstreamer-1.0:${pkgs.gst_all_1.gstreamer}/lib/gstreamer-1.0
 
         ${pkgs.gst_all_1.gstreamer}/bin/gst-launch-1.0 \
-          icamerasrc device-name=0 ! \
+          icamerasrc ! \
           video/x-raw,format=NV12,width=1280,height=720,framerate=30/1 ! \
           videoconvert ! \
           video/x-raw,format=YUY2 ! \
-          v4l2sink device=/dev/video0
+          v4l2sink device=/dev/video32
       '';
       serviceConfig = {
         Restart = "always";
