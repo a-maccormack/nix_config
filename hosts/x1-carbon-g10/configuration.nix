@@ -21,9 +21,13 @@
     hardware.bluetooth.enable = true;
     hardware.bluetooth.powerOnBoot = true;
 
-    # IPU6
-    hardware.ipu6.enable = false;
-    hardware.ipu6-custom.enable = true;
+    # IPU6 - native module with HAL linkage fix
+    hardware.ipu6-overlay.enable = true;  # Fix icamerasrc-ipu6ep HAL linkage
+    hardware.ipu6 = {
+      enable = true;
+      platform = "ipu6ep";  # Alder Lake (12th gen)
+    };
+    hardware.ipu6-custom.enable = false;
     services.blueman.enable = true;
 
     # Localization
