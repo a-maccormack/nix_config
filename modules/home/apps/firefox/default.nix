@@ -6,20 +6,7 @@ with lib;
   options.presets.home.apps.firefox.enable = mkEnableOption "Firefox browser";
 
   config = mkIf config.presets.home.apps.firefox.enable {
-    programs.firefox = {
-      enable = true;
-      profiles = {
-        personal = {
-          id = 0;
-          name = "Personal";
-          isDefault = true;
-        };
-        shinkansen = {
-          id = 1;
-          name = "Shinkansen";
-        };
-      };
-    };
+    programs.firefox.enable = true;
 
     # Override Firefox desktop entry to launch profile manager
     xdg.desktopEntries.firefox = {
