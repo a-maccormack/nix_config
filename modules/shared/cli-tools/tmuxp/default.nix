@@ -8,6 +8,18 @@ with lib;
   config = mkIf config.presets.shared.cli-tools.tmuxp.enable {
     home.packages = [ pkgs.tmuxp ];
 
+    # tmuxp project configurations
+    xdg.configFile."tmuxp/nix-config.yaml".text = ''
+      session_name: nix-config
+      start_directory: ~/Dev/nix_config
+      windows:
+        - window_name: dev
+          layout: main-vertical
+          panes:
+            - claude
+            - shell_command: []
+    '';
+
     # Create the launcher script in ~/.local/bin
     home.file.".local/bin/launch-tmuxp".source = pkgs.writeShellScript "launch-tmuxp" ''
       CONFIG_DIR="$HOME/.config/tmuxp"
