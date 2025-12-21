@@ -98,6 +98,8 @@ with lib;
         input = {
           kb_layout = "us";
           follow_mouse = 1;
+          repeat_rate = 50;
+          repeat_delay = 300;
           touchpad = {
             natural_scroll = true;
           };
