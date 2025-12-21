@@ -22,10 +22,8 @@
     hardware.bluetooth.powerOnBoot = true;
 
     # IPU6
-    hardware.ipu6 = {
-      enable = true;
-      platform = "ipu6ep";
-    };
+    hardware.ipu6.enable = false;
+    hardware.ipu6-custom.enable = true;
     services.blueman.enable = true;
 
     # Localization
