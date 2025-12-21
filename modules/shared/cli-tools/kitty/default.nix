@@ -10,7 +10,7 @@ with lib;
       enable = true;
       settings = {
         font_family = "monospace";
-        font_size = 12;
+        font_size = 16;
         enable_audio_bell = false;
         window_padding_width = 5;
         background_opacity = "0.85";

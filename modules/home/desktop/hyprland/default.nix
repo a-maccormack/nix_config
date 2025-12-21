@@ -40,7 +40,7 @@ with lib;
         "$terminal" = "kitty";
         "$menu" = "fuzzel";
 
-        monitor = ",preferred,auto,1";
+        monitor = "eDP-1,2880x1800@90,auto,1.5";
 
         env = [
           "XCURSOR_THEME,Adwaita"
