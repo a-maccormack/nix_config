@@ -95,7 +95,7 @@ with lib;
       style = ''
         * {
           font-family: "JetBrainsMono Nerd Font", monospace;
-          font-size: 13px;
+          font-size: 16px;
         }
 
         window#waybar {
