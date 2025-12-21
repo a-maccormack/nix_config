@@ -118,7 +118,7 @@ with lib;
           "$mod, E, exec, nautilus"
           "$mod, V, togglefloating,"
           "$mod, F, fullscreen,"
-          "$mod, P, pseudo,"
+          # "$mod, P, pseudo,"
           "$mod, S, togglesplit,"
 
           # Move focus with vim keys
@@ -161,9 +161,9 @@ with lib;
           "$mod, mouse_down, workspace, e+1"
           "$mod, mouse_up, workspace, e-1"
 
-          # Screenshot
-          "$mod, G, exec, grim -g \"$(slurp)\" - | wl-copy"
-          "$mod SHIFT, G, exec, grim - | wl-copy"
+          # Screenshot (opens Satty for annotation)
+          "$mod, P, exec, grim -g \"$(slurp)\" - | satty -f - --copy-command wl-copy"
+          "$mod SHIFT, P, exec, grim - | satty -f - --copy-command wl-copy"
 
           # Lock screen
           "$mod, Escape, exec, WLR_RENDERER_ALLOW_SOFTWARE=1 hyprlock"

@@ -15,7 +15,7 @@ with lib;
           height = 30;
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
-          modules-right = [ "pulseaudio" "network" "battery" "cpu" "memory" "tray" ];
+          modules-right = [ "pulseaudio" "pulseaudio#mic" "bluetooth" "network" "battery" "cpu" "memory" "tray" ];
 
           battery = {
             states = {
@@ -51,14 +51,39 @@ with lib;
           };
 
           network = {
-            format-wifi = "WiFi ({signalStrength}%)";
-            format-ethernet = "ETH";
-            format-disconnected = "Disconnected";
+            format-wifi = "{icon}";
+            format-ethernet = "󰈀";
+            format-disconnected = "󰤭";
+            format-icons = [ "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" ];
+            tooltip-format-wifi = "{essid} ({signalStrength}%)";
+          };
+
+          bluetooth = {
+            format = "󰂯";
+            format-connected = "󰂱";
+            format-disabled = "󰂲";
+            format-off = "󰂲";
+            tooltip-format = "{controller_alias}\t{controller_address}";
+            tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{device_enumerate}";
+            tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
+            on-click = "blueman-manager";
           };
 
           pulseaudio = {
-            format = "VOL {volume}%";
-            format-muted = "MUTED";
+            format = "{icon}";
+            format-muted = "󰝟";
+            format-icons = {
+              default = [ "󰕿" "󰖀" "󰕾" ];
+            };
+            tooltip-format = "Volume: {volume}%";
+            on-click = "pavucontrol";
+          };
+
+          "pulseaudio#mic" = {
+            format = "{format_source}";
+            format-source = "󰍬";
+            format-source-muted = "󰍭";
+            tooltip-format = "Mic: {source_volume}%";
             on-click = "pavucontrol";
           };
 
@@ -90,7 +115,7 @@ with lib;
           color: #1e1e2e;
         }
 
-        #clock, #cpu, #memory, #network, #pulseaudio, #battery, #tray {
+        #clock, #cpu, #memory, #network, #pulseaudio, #battery, #bluetooth, #tray {
           padding: 0 10px;
         }
 

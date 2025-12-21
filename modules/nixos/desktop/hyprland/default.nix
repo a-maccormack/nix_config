@@ -47,6 +47,7 @@ with lib;
       # Screenshot
       grim
       slurp
+      satty
       # Audio/brightness control
       brightnessctl
       pamixer
