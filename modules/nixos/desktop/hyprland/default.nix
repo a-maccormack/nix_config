@@ -21,7 +21,14 @@ with lib;
     programs.dconf.enable = true;
 
     # PAM for hyprlock
-    security.pam.services.hyprlock = {};
+    security.pam.services.hyprlock = { };
+
+    # Lid close behavior - suspend (hypridle handles locking via before_sleep_cmd)
+    services.logind = {
+      lidSwitch = "suspend";
+      lidSwitchExternalPower = "suspend";
+      lidSwitchDocked = "ignore";
+    };
 
     # Fonts
     fonts.packages = with pkgs; [
