@@ -83,7 +83,38 @@ in
       KERNEL=="ipu-psys[0-9]*", GROUP="video", MODE="0660"
     '';
 
-    # 6. GStreamer Environment
+    # 6. Create /run/camera directory for HAL
+    systemd.tmpfiles.rules = [
+      "d /run/camera 0755 root root -"
+    ];
+
+    # 7. Ensure v4l2-relayd service handles cleanup gracefully
+    systemd.services.v4l2-relayd-ipu6 = {
+      # Wait for tmpfiles to create /run/camera
+      after = [ "systemd-tmpfiles-setup.service" ];
+      requires = [ "systemd-tmpfiles-setup.service" ];
+      serviceConfig = {
+        # Increase restart delay to avoid rapid cycling when device is busy
+        RestartSec = lib.mkForce 3;
+        # Override post-stop to handle "device busy" gracefully
+        # The default script fails if Firefox still holds the device
+        ExecStopPost = lib.mkForce (pkgs.writeShellScript "v4l2-relayd-ipu6-post-stop" ''
+          if [ -f "$V4L2_DEVICE_FILE" ]; then
+            DEVICE=$(cat "$V4L2_DEVICE_FILE")
+            # Try to delete, retry up to 5 times with 1s delay
+            for i in 1 2 3 4 5; do
+              if ${config.boot.kernelPackages.v4l2loopback.bin}/bin/v4l2loopback-ctl delete "$DEVICE" 2>/dev/null; then
+                break
+              fi
+              sleep 1
+            done
+            rm -rf "$(dirname "$V4L2_DEVICE_FILE")"
+          fi
+        '');
+      };
+    };
+
+    # 8. GStreamer Environment
     environment.sessionVariables = {
       GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [
         icamerasrcPkg
