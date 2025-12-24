@@ -8,7 +8,6 @@ with lib;
   config = mkIf config.presets.shared.cli-tools.docker.enable {
     home.packages = with pkgs; [
       docker-compose
-      docker-credential-helpers
     ];
   };
 }
