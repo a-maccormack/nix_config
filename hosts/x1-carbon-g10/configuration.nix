@@ -52,6 +52,10 @@
     presets.desktop.hyprland.enable = true;
     presets.virtualisation.docker.enable = true;
 
+    # Enable nix-ld for running unpatched binaries (e.g. uv python)
+    programs.nix-ld.enable = true;
+    environment.localBinInPath = true;
+
     # Home-manager
     home-manager = {
       useGlobalPkgs = true;
