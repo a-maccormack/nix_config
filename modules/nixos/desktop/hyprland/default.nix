@@ -24,10 +24,10 @@ with lib;
     security.pam.services.hyprlock = { };
 
     # Lid close behavior - suspend (hypridle handles locking via before_sleep_cmd)
-    services.logind = {
-      lidSwitch = "suspend";
-      lidSwitchExternalPower = "suspend";
-      lidSwitchDocked = "ignore";
+    services.logind.settings.Login = {
+      HandleLidSwitch = "suspend";
+      HandleLidSwitchExternalPower = "suspend";
+      HandleLidSwitchDocked = "ignore";
     };
 
     # Fonts
