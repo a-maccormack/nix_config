@@ -20,8 +20,8 @@ with lib;
     # dconf for GTK/libadwaita settings
     programs.dconf.enable = true;
 
-    # PAM for hyprlock
-    security.pam.services.hyprlock = { };
+    # PAM for hyprlock (with keyring unlock)
+    security.pam.services.hyprlock.enableGnomeKeyring = true;
 
     # Keyring for secrets (gh, ssh-agent, etc.)
     services.gnome.gnome-keyring.enable = true;
