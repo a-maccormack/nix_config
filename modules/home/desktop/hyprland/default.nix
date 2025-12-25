@@ -42,6 +42,21 @@ with lib;
       };
     };
 
+    # SwayOSD service for volume/brightness OSD
+    systemd.user.services.swayosd = {
+      Unit = {
+        Description = "SwayOSD volume/brightness OSD";
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.swayosd}/bin/swayosd-server";
+        Restart = "on-failure";
+        RestartSec = 1;
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
+    };
+
     # Session variables for Wayland
     home.sessionVariables = {
       XDG_CURRENT_DESKTOP = "Hyprland";
@@ -229,7 +244,6 @@ with lib;
           "swaync"
           "hyprpaper"
           "hypridle"
-          "swayosd-server"
         ];
       };
 

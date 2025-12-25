@@ -23,6 +23,9 @@ with lib;
     # PAM for hyprlock
     security.pam.services.hyprlock = { };
 
+    # Keyring for secrets (gh, ssh-agent, etc.)
+    services.gnome.gnome-keyring.enable = true;
+
     # Lid close behavior - suspend (hypridle handles locking via before_sleep_cmd)
     services.logind.settings.Login = {
       HandleLidSwitch = "suspend";
