@@ -45,6 +45,7 @@
     programs.zsh.enable = true;
 
     # Enable presets
+    presets.system.bash.binbash = true;
     presets.system.boot.enable = true;
     presets.system.nix.flakes.enable = true;
     presets.system.nix.gc.enable = true;
