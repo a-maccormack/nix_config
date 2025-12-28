@@ -42,6 +42,8 @@ with lib;
     environment.systemPackages = with pkgs; [
       # Wayland utilities
       wl-clipboard
+      # Keyring CLI
+      libsecret
       wdisplays
       xdg-utils
       # Icons
