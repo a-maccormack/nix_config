@@ -51,6 +51,7 @@
     presets.system.nix.gc.enable = true;
     presets.desktop.ly.enable = true;
     presets.desktop.hyprland.enable = true;
+    presets.desktop._1password.enable = true;
     presets.virtualisation.docker.enable = true;
     presets.virtualisation.tailscale.enable = true;
 
