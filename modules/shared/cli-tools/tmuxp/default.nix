@@ -33,7 +33,7 @@ with lib;
             - shell_command:
                 - cd ~/shinkansen/local/shinkansen-monorail/customer-ui && iex -S mix phx.server
             - shell_command:
-                - cd ~/shinkansen/local/simulated-bank && iex -S mix phx.server
+                - cd ~/shinkansen/local/shinkansen-monorail/simulated-bank && iex -S mix phx.server
     '';
 
     # Create the launcher script in ~/.local/bin
