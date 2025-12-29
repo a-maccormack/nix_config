@@ -20,6 +20,22 @@ with lib;
             - shell_command: []
     '';
 
+    xdg.configFile."tmuxp/shinkansen.yaml".text = ''
+      session_name: "shinkansen-dev"
+      windows:
+        - window_name: workspace
+          layout: tiled
+          panes:
+            - shell_command:
+                - cd ~/shinkansen/local/shinkansen-monorail/core && iex -S mix phx.server
+            - shell_command:
+                - cd ~/shinkansen/local/shinkansen-treasury && iex -S mix phx.server
+            - shell_command:
+                - cd ~/shinkansen/local/shinkansen-monorail/customer-ui && iex -S mix phx.server
+            - shell_command:
+                - cd ~/shinkansen/local/simulated-bank && iex -S mix phx.server
+    '';
+
     # Create the launcher script in ~/.local/bin
     home.file.".local/bin/launch-tmuxp".source = pkgs.writeShellScript "launch-tmuxp" ''
       CONFIG_DIR="$HOME/.config/tmuxp"
