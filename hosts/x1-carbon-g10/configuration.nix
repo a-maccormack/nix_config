@@ -22,10 +22,10 @@
     hardware.bluetooth.powerOnBoot = true;
 
     # IPU6 - native module with HAL linkage fix
-    hardware.ipu6-overlay.enable = true;  # Fix icamerasrc-ipu6ep HAL linkage
+    hardware.ipu6-overlay.enable = true; # Fix icamerasrc-ipu6ep HAL linkage
     hardware.ipu6 = {
       enable = true;
-      platform = "ipu6ep";  # Alder Lake (12th gen)
+      platform = "ipu6ep"; # Alder Lake (12th gen)
     };
     hardware.ipu6-custom.enable = false;
     services.blueman.enable = true;
@@ -52,6 +52,7 @@
     presets.desktop.ly.enable = true;
     presets.desktop.hyprland.enable = true;
     presets.virtualisation.docker.enable = true;
+    presets.virtualisation.tailscale.enable = true;
 
     # Enable nix-ld for running unpatched binaries (e.g. uv python)
     programs.nix-ld.enable = true;
