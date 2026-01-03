@@ -4,6 +4,19 @@
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+-- Handle LSP messages quietly (prevents "Press ENTER" interruptions)
+vim.lsp.handlers["window/showMessage"] = function(_, result, ctx)
+	local client = vim.lsp.get_client_by_id(ctx.client_id)
+	local client_name = client and client.name or "LSP"
+	local message = result.message
+
+	-- Map LSP MessageType: 1=Error, 2=Warning, 3=Info, 4=Log
+	local level = ({ vim.log.levels.ERROR, vim.log.levels.WARN, vim.log.levels.INFO, vim.log.levels.DEBUG })[result.type]
+		or vim.log.levels.INFO
+
+	vim.notify(string.format("[%s] %s", client_name, message), level)
+end
+
 -- LSP attach keybindings via autocmd
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
@@ -21,7 +34,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				buffer = bufnr,
 				callback = function()
-					vim.lsp.buf.format({ async = true })
+					vim.lsp.buf.format({ async = false, timeout_ms = 3000 })
 				end,
 			})
 		end
