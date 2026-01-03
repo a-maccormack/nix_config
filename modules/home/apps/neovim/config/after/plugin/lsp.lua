@@ -34,7 +34,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				buffer = bufnr,
 				callback = function()
-					vim.lsp.buf.format({ async = false, timeout_ms = 3000 })
+					local ok, err = pcall(vim.lsp.buf.format, { async = false, timeout_ms = 3000 })
+					if not ok then
+						vim.notify("[elixirls] Format failed: " .. tostring(err), vim.log.levels.WARN)
+					end
 				end,
 			})
 		end
@@ -106,7 +109,7 @@ vim.lsp.config.rust_analyzer = {
 }
 
 vim.lsp.config.elixirls = {
-	cmd = { "elixir-ls" },
+	cmd = { vim.fn.expand("~/.local/share/elixir-ls/language_server.sh") },
 	filetypes = { "elixir", "eelixir", "heex", "surface" },
 	root_markers = { "mix.exs", ".git" },
 	capabilities = capabilities,
