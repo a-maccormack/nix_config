@@ -54,6 +54,7 @@
     presets.desktop._1password.enable = true;
     presets.virtualisation.docker.enable = true;
     presets.virtualisation.tailscale.enable = true;
+    presets.virtualisation.qemu.enable = true;
 
     # Enable nix-ld for running unpatched binaries (e.g. uv python)
     programs.nix-ld.enable = true;
