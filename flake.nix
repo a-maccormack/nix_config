@@ -108,6 +108,18 @@
                 ./systems/x86_64-iso
               ];
             };
+
+            vm-iso = nixos-generators.nixosGenerate {
+              specialArgs = {
+                inherit inputs;
+                inherit lib;
+              };
+              system = "x86_64-linux";
+              format = "iso";
+              modules = [
+                ./systems/x86_64-vm-iso
+              ];
+            };
           }
         );
     };
