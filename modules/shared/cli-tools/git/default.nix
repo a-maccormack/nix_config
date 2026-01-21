@@ -2,15 +2,25 @@
 
 with lib;
 
+let
+  cfg = config.presets.shared.cli-tools.git;
+in
 {
-  options.presets.shared.cli-tools.git.enable = mkEnableOption "Git version control";
+  options.presets.shared.cli-tools.git = {
+    enable = mkEnableOption "Git version control";
+    useSSH = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Use SSH instead of HTTPS for GitHub and enable commit signing";
+    };
+  };
 
-  config = mkIf config.presets.shared.cli-tools.git.enable {
+  config = mkIf cfg.enable {
     programs.git = {
       enable = true;
 
-      # SSH signing
-      signing = {
+      # SSH signing (only when useSSH is enabled)
+      signing = mkIf cfg.useSSH {
         key = "/home/mac/.ssh/gh_sign_key";
         signByDefault = true;
       };
@@ -22,8 +32,10 @@ with lib;
           email = "78695941+a-maccormack@users.noreply.github.com";
         };
 
-        # Use SSH instead of HTTPS for GitHub
-        url."git@github.com:".insteadOf = "https://github.com/";
+        # Use SSH instead of HTTPS for GitHub (only when useSSH is enabled)
+        url = mkIf cfg.useSSH {
+          "git@github.com:".insteadOf = "https://github.com/";
+        };
 
         # Core settings
         core.editor = "nvim";
@@ -31,11 +43,15 @@ with lib;
         # Default branch
         init.defaultBranch = "main";
 
-        # GPG/SSH signing format
-        gpg.format = "ssh";
+        # GPG/SSH signing format (only when useSSH is enabled)
+        gpg = mkIf cfg.useSSH {
+          format = "ssh";
+        };
 
-        # Sign tags
-        tag.gpgSign = true;
+        # Sign tags (only when useSSH is enabled)
+        tag = mkIf cfg.useSSH {
+          gpgSign = true;
+        };
       };
     };
   };

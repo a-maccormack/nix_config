@@ -68,6 +68,7 @@
 
         # Enable shared CLI tools
         presets.shared.cli-tools.enable = true;
+        presets.shared.cli-tools.git.useSSH = false;
 
         # Enable shared apps
         presets.shared.apps.nautilus.enable = true;
