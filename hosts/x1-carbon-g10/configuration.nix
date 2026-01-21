@@ -29,6 +29,8 @@
     };
     hardware.ipu6-custom.enable = false;
     services.blueman.enable = true;
+    services.udisks2.enable = true;
+    services.gvfs.enable = true;
 
     # Localization
     time.timeZone = "America/Santiago";
