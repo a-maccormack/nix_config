@@ -31,7 +31,8 @@
     # Enable zsh system-wide
     programs.zsh.enable = true;
 
-    # SPICE guest agent for clipboard sharing, display resize, etc.
+    # QEMU guest agent and SPICE for clipboard sharing
+    services.qemuGuest.enable = true;
     services.spice-vdagentd.enable = true;
 
     # Enable presets
