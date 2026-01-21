@@ -95,15 +95,19 @@
         mount "$BOOT_PART" /mnt/boot
 
         echo -e "''${GREEN}[4/6] Cloning NixOS configuration...''${NC}"
-        mkdir -p /mnt/etc
-        git clone https://github.com/a-maccormack/nix_config.git /mnt/etc/nixos
-        cd /mnt/etc/nixos
+        CONFIG_DIR="/mnt/home/mac/Dev/nix_config"
+        mkdir -p /mnt/home/mac/Dev
+        git clone https://github.com/a-maccormack/nix_config.git "$CONFIG_DIR"
 
         echo -e "''${GREEN}[5/6] Generating hardware configuration...''${NC}"
-        nixos-generate-config --root /mnt --show-hardware-config > /mnt/etc/nixos/hosts/vm/hardware-configuration.nix
+        nixos-generate-config --root /mnt --show-hardware-config > "$CONFIG_DIR/hosts/vm/hardware-configuration.nix"
+        echo -e "''${YELLOW}Note: hardware-configuration.nix updated but not staged in git''${NC}"
 
         echo -e "''${GREEN}[6/6] Installing NixOS...''${NC}"
-        nixos-install --flake /mnt/etc/nixos#vm --no-root-passwd
+        nixos-install --flake "$CONFIG_DIR#vm" --no-root-passwd
+
+        # Fix ownership after install (will be owned by root otherwise)
+        chown -R 1000:100 /mnt/home/mac
 
         echo ""
         echo -e "''${GREEN}============================================''${NC}"
@@ -202,16 +206,19 @@
         mount "$BOOT_PART" /mnt/boot
 
         echo -e "''${GREEN}Cloning configuration...''${NC}"
-        mkdir -p /mnt/etc
-        git clone https://github.com/a-maccormack/nix_config.git /mnt/etc/nixos
-
-        cd /mnt/etc/nixos
+        CONFIG_DIR="/mnt/home/mac/Dev/nix_config"
+        mkdir -p /mnt/home/mac/Dev
+        git clone https://github.com/a-maccormack/nix_config.git "$CONFIG_DIR"
 
         echo -e "''${GREEN}Generating hardware configuration...''${NC}"
-        nixos-generate-config --root /mnt --show-hardware-config > /mnt/etc/nixos/hosts/vm/hardware-configuration.nix
+        nixos-generate-config --root /mnt --show-hardware-config > "$CONFIG_DIR/hosts/vm/hardware-configuration.nix"
+        echo -e "''${YELLOW}Note: hardware-configuration.nix updated but not staged in git''${NC}"
 
         echo -e "''${GREEN}Installing NixOS (this may take a while)...''${NC}"
-        nixos-install --flake /mnt/etc/nixos#vm --no-root-passwd
+        nixos-install --flake "$CONFIG_DIR#vm" --no-root-passwd
+
+        # Fix ownership after install (will be owned by root otherwise)
+        chown -R 1000:100 /mnt/home/mac
 
         echo ""
         echo -e "''${GREEN}Setting passwords...''${NC}"
@@ -238,9 +245,11 @@
       Manual installation:
         1. Partition your disk
         2. Mount to /mnt (and /mnt/boot)
-        3. git clone https://github.com/a-maccormack/nix_config.git /mnt/etc/nixos
-        4. nixos-generate-config --root /mnt --show-hardware-config > /mnt/etc/nixos/hosts/vm/hardware-configuration.nix
-        5. nixos-install --flake /mnt/etc/nixos#vm
+        3. mkdir -p /mnt/home/mac/Dev
+        4. git clone https://github.com/a-maccormack/nix_config.git /mnt/home/mac/Dev/nix_config
+        5. nixos-generate-config --root /mnt --show-hardware-config > /mnt/home/mac/Dev/nix_config/hosts/vm/hardware-configuration.nix
+        6. nixos-install --flake /mnt/home/mac/Dev/nix_config#vm
+        7. chown -R 1000:100 /mnt/home/mac
 
     '';
   };
