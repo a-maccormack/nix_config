@@ -31,6 +31,9 @@
     # Enable zsh system-wide
     programs.zsh.enable = true;
 
+    # SPICE guest agent for clipboard sharing, display resize, etc.
+    services.spice-vdagentd.enable = true;
+
     # Enable presets
     presets.system.boot.enable = true;
     presets.system.nix.flakes.enable = true;
