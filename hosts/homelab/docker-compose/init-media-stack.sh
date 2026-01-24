@@ -13,13 +13,14 @@ RETRY_DELAY=10
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
 error() { log "ERROR: $*" >&2; }
 
-# Wait for a service to be ready
+# Wait for a service to be ready (accepts any HTTP response including 401)
 wait_for_service() {
     local name="$1" url="$2" retries=0
     log "Waiting for $name to be ready..."
     while [ $retries -lt $MAX_RETRIES ]; do
-        if curl -sf "$url" > /dev/null 2>&1; then
-            log "$name is ready"
+        local http_code=$(curl -s -o /dev/null -w "%{http_code}" "$url" 2>/dev/null || echo "000")
+        if [ "$http_code" != "000" ]; then
+            log "$name is ready (HTTP $http_code)"
             return 0
         fi
         retries=$((retries + 1))
