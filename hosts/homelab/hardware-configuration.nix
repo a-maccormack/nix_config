@@ -1,4 +1,9 @@
-{ config, lib, modulesPath, ... }:
+{
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [
@@ -41,7 +46,10 @@
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/<BOOT_UUID>";
     fsType = "vfat";
-    options = [ "fmask=0022" "dmask=0022" ];
+    options = [
+      "fmask=0022"
+      "dmask=0022"
+    ];
   };
 
   fileSystems."/srv" = {

@@ -30,7 +30,6 @@ with lib;
       };
     };
 
-    users.users.mac.openssh.authorizedKeys.keys =
-      config.presets.server.openssh.authorizedKeys;
+    users.users.mac.openssh.authorizedKeys.keys = config.presets.server.openssh.authorizedKeys;
   };
 }

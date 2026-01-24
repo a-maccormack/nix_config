@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # Use custom drivers package for kernel module
@@ -34,7 +39,7 @@ in
     ];
 
     # 2. Firmware - use nixpkgs
-    hardware.ipu6.enable = false;  # We manage this manually
+    hardware.ipu6.enable = false; # We manage this manually
     hardware.firmware = [ pkgs.ipu6-camera-bins ];
 
     # 3. Userspace / HAL
@@ -98,19 +103,21 @@ in
         RestartSec = lib.mkForce 3;
         # Override post-stop to handle "device busy" gracefully
         # The default script fails if Firefox still holds the device
-        ExecStopPost = lib.mkForce (pkgs.writeShellScript "v4l2-relayd-ipu6-post-stop" ''
-          if [ -f "$V4L2_DEVICE_FILE" ]; then
-            DEVICE=$(cat "$V4L2_DEVICE_FILE")
-            # Try to delete, retry up to 5 times with 1s delay
-            for i in 1 2 3 4 5; do
-              if ${config.boot.kernelPackages.v4l2loopback.bin}/bin/v4l2loopback-ctl delete "$DEVICE" 2>/dev/null; then
-                break
-              fi
-              sleep 1
-            done
-            rm -rf "$(dirname "$V4L2_DEVICE_FILE")"
-          fi
-        '');
+        ExecStopPost = lib.mkForce (
+          pkgs.writeShellScript "v4l2-relayd-ipu6-post-stop" ''
+            if [ -f "$V4L2_DEVICE_FILE" ]; then
+              DEVICE=$(cat "$V4L2_DEVICE_FILE")
+              # Try to delete, retry up to 5 times with 1s delay
+              for i in 1 2 3 4 5; do
+                if ${config.boot.kernelPackages.v4l2loopback.bin}/bin/v4l2loopback-ctl delete "$DEVICE" 2>/dev/null; then
+                  break
+                fi
+                sleep 1
+              done
+              rm -rf "$(dirname "$V4L2_DEVICE_FILE")"
+            fi
+          ''
+        );
       };
     };
 

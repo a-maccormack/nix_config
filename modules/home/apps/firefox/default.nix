@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -15,8 +20,18 @@ with lib;
       exec = "firefox --ProfileManager";
       icon = "firefox";
       terminal = false;
-      categories = [ "Network" "WebBrowser" ];
-      mimeType = [ "text/html" "text/xml" "application/xhtml+xml" "application/vnd.mozilla.xul+xml" "x-scheme-handler/http" "x-scheme-handler/https" ];
+      categories = [
+        "Network"
+        "WebBrowser"
+      ];
+      mimeType = [
+        "text/html"
+        "text/xml"
+        "application/xhtml+xml"
+        "application/vnd.mozilla.xul+xml"
+        "x-scheme-handler/http"
+        "x-scheme-handler/https"
+      ];
     };
   };
 }

@@ -7,8 +7,14 @@ with lib;
 
   config = mkIf config.presets.system.nix.flakes.enable {
     nix.settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = [ "root" "@wheel" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [
+        "root"
+        "@wheel"
+      ];
     };
 
     nixpkgs.config.allowUnfree = true;

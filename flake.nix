@@ -26,14 +26,15 @@
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , unstable
-    , nix
-    , nix-index-database
-    , nixos-generators
-    , home-manager
-    , ...
+    {
+      self,
+      nixpkgs,
+      unstable,
+      nix,
+      nix-index-database,
+      nixos-generators,
+      home-manager,
+      ...
 
     }@inputs:
     let
@@ -96,55 +97,56 @@
         };
       };
 
-      packages = forEachSupportedSystem
-        (
-          { pkgs }:
-          {
-            wallpapers = pkgs.stdenv.mkDerivation {
-              name = "wallpapers";
-              src = ./assets/wallpapers;
-              installPhase = ''
-                mkdir -p $out/
-                cp -Rf ./ $out/
-              '';
-            };
+      formatter = forEachSupportedSystem ({ pkgs }: pkgs.nixfmt-rfc-style);
 
-            iso = nixos-generators.nixosGenerate {
-              specialArgs = {
-                inherit inputs;
-                inherit lib;
-              };
-              system = "x86_64-linux";
-              format = "iso";
-              modules = [
-                ./systems/x86_64-iso
-              ];
-            };
+      packages = forEachSupportedSystem (
+        { pkgs }:
+        {
+          wallpapers = pkgs.stdenv.mkDerivation {
+            name = "wallpapers";
+            src = ./assets/wallpapers;
+            installPhase = ''
+              mkdir -p $out/
+              cp -Rf ./ $out/
+            '';
+          };
 
-            vm-iso = nixos-generators.nixosGenerate {
-              specialArgs = {
-                inherit inputs;
-                inherit lib;
-              };
-              system = "x86_64-linux";
-              format = "iso";
-              modules = [
-                ./systems/x86_64-vm-iso
-              ];
+          iso = nixos-generators.nixosGenerate {
+            specialArgs = {
+              inherit inputs;
+              inherit lib;
             };
+            system = "x86_64-linux";
+            format = "iso";
+            modules = [
+              ./systems/x86_64-iso
+            ];
+          };
 
-            homelab-iso = nixos-generators.nixosGenerate {
-              specialArgs = {
-                inherit inputs;
-                inherit lib;
-              };
-              system = "x86_64-linux";
-              format = "iso";
-              modules = [
-                ./systems/x86_64-homelab-iso
-              ];
+          vm-iso = nixos-generators.nixosGenerate {
+            specialArgs = {
+              inherit inputs;
+              inherit lib;
             };
-          }
-        );
+            system = "x86_64-linux";
+            format = "iso";
+            modules = [
+              ./systems/x86_64-vm-iso
+            ];
+          };
+
+          homelab-iso = nixos-generators.nixosGenerate {
+            specialArgs = {
+              inherit inputs;
+              inherit lib;
+            };
+            system = "x86_64-linux";
+            format = "iso";
+            modules = [
+              ./systems/x86_64-homelab-iso
+            ];
+          };
+        }
+      );
     };
 }

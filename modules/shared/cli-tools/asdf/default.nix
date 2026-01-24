@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -42,13 +47,16 @@ in
   options.presets.shared.cli-tools.asdf.enable = mkEnableOption "asdf version manager";
 
   config = mkIf config.presets.shared.cli-tools.asdf.enable {
-    home.packages = with pkgs; [
-      asdf-vm
-      unzip
-      # Elixir runtime dependencies
-      inotify-tools
-      watchman
-    ] ++ erlangBuildInputs;
+    home.packages =
+      with pkgs;
+      [
+        asdf-vm
+        unzip
+        # Elixir runtime dependencies
+        inotify-tools
+        watchman
+      ]
+      ++ erlangBuildInputs;
 
     programs.zsh.initContent = ''
       ${erlangEnv}

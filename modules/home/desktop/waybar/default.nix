@@ -15,7 +15,17 @@ with lib;
           height = 30;
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
-          modules-right = [ "hyprland/language" "pulseaudio" "pulseaudio#mic" "bluetooth" "network" "battery" "cpu" "memory" "tray" ];
+          modules-right = [
+            "hyprland/language"
+            "pulseaudio"
+            "pulseaudio#mic"
+            "bluetooth"
+            "network"
+            "battery"
+            "cpu"
+            "memory"
+            "tray"
+          ];
 
           battery = {
             states = {
@@ -26,7 +36,19 @@ with lib;
             format-charging = "󰂄 {capacity}%";
             format-plugged = "󰚥 {capacity}%";
             format-alt = "{icon} {time} ({capacity}%)";
-            format-icons = [ "󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+            format-icons = [
+              "󰂎"
+              "󰁺"
+              "󰁻"
+              "󰁼"
+              "󰁽"
+              "󰁾"
+              "󰁿"
+              "󰂀"
+              "󰂁"
+              "󰂂"
+              "󰁹"
+            ];
           };
 
           "hyprland/workspaces" = {
@@ -54,7 +76,13 @@ with lib;
             format-wifi = "{icon}";
             format-ethernet = "󰈀";
             format-disconnected = "󰤭";
-            format-icons = [ "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" ];
+            format-icons = [
+              "󰤯"
+              "󰤟"
+              "󰤢"
+              "󰤥"
+              "󰤨"
+            ];
             tooltip-format-wifi = "{essid} ({signalStrength}%)";
           };
 
@@ -73,7 +101,11 @@ with lib;
             format = "{icon}";
             format-muted = "󰝟";
             format-icons = {
-              default = [ "󰕿" "󰖀" "󰕾" ];
+              default = [
+                "󰕿"
+                "󰖀"
+                "󰕾"
+              ];
             };
             tooltip-format = "Volume: {volume}%";
             on-click = "pavucontrol";

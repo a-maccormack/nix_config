@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -79,9 +84,9 @@ with lib;
         "$menu" = "fuzzel";
 
         monitor = [
-          "eDP-1,2880x1800@90,auto,1.5"      # Laptop display
-          "Virtual-1,1920x1200@60,auto,1"    # QEMU/KVM VM display
-          ",preferred,auto,auto"              # Fallback for any other display
+          "eDP-1,2880x1800@90,auto,1.5" # Laptop display
+          "Virtual-1,1920x1200@60,auto,1" # QEMU/KVM VM display
+          ",preferred,auto,auto" # Fallback for any other display
         ];
 
         env = [

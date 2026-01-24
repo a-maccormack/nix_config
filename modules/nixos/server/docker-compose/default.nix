@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -24,8 +29,15 @@ with lib;
     # Systemd service to manage compose stack
     systemd.services.docker-compose-media = {
       description = "Docker Compose Media Stack";
-      after = [ "docker.service" "network-online.target" "srv.mount" ];
-      wants = [ "docker.service" "network-online.target" ];
+      after = [
+        "docker.service"
+        "network-online.target"
+        "srv.mount"
+      ];
+      wants = [
+        "docker.service"
+        "network-online.target"
+      ];
       requires = [ "srv.mount" ]; # Wait for HDD to be mounted
       wantedBy = [ "multi-user.target" ];
 

@@ -1,9 +1,15 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 {
-  options.presets.shared.apps.security.burpsuite.enable = mkEnableOption "Burp Suite web security testing";
+  options.presets.shared.apps.security.burpsuite.enable =
+    mkEnableOption "Burp Suite web security testing";
 
   config = mkIf config.presets.shared.apps.security.burpsuite.enable {
     home.packages = [ pkgs.burpsuite ];

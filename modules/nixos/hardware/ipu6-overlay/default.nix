@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   options.hardware.ipu6-overlay.enable = lib.mkEnableOption "Fix icamerasrc-ipu6ep HAL linkage";
@@ -30,8 +35,8 @@
     #
     # Fix: Native module uses "icamerasrc" without device-name, causing wrong sensor detection.
     # X1 Carbon Gen10 has ov2740 sensor - must specify device-name to load correct tuning.
-    services.v4l2-relayd.instances.ipu6.input.pipeline = lib.mkForce
-      "icamerasrc device-name=ov2740-uf buffer-count=8 ! queue max-size-buffers=10 max-size-time=500000000 leaky=downstream";
+    services.v4l2-relayd.instances.ipu6.input.pipeline =
+      lib.mkForce "icamerasrc device-name=ov2740-uf buffer-count=8 ! queue max-size-buffers=10 max-size-time=500000000 leaky=downstream";
 
     # =========================================================================
     # SYSTEMD HARDENING: Resource guarantees for camera service
@@ -62,8 +67,16 @@
     # Restart v4l2-relayd after resume to ensure camera works without closing the app.
     systemd.services.v4l2-relayd-ipu6-resume = {
       description = "Restart v4l2-relayd after suspend";
-      after = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
-      wantedBy = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
+      after = [
+        "suspend.target"
+        "hibernate.target"
+        "hybrid-sleep.target"
+      ];
+      wantedBy = [
+        "suspend.target"
+        "hibernate.target"
+        "hybrid-sleep.target"
+      ];
       serviceConfig = {
         Type = "oneshot";
         ExecStart = "${pkgs.systemd}/bin/systemctl restart v4l2-relayd-ipu6";

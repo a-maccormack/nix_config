@@ -1,9 +1,15 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 {
-  options.presets.shared.apps.development.antares.enable = mkEnableOption "Antares SQL database client";
+  options.presets.shared.apps.development.antares.enable =
+    mkEnableOption "Antares SQL database client";
 
   config = mkIf config.presets.shared.apps.development.antares.enable {
     home.packages = [ pkgs.antares ];

@@ -1,4 +1,10 @@
-{ lib, pkgs, config, inputs, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -24,7 +30,10 @@
     # User account
     users.users.mac = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" ];
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+      ];
       shell = pkgs.zsh;
     };
 
@@ -51,28 +60,30 @@
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      users.mac = { pkgs, ... }: {
-        imports = [
-          ../../modules/home/import.nix
-          ../../modules/shared/import.nix
-        ];
+      users.mac =
+        { pkgs, ... }:
+        {
+          imports = [
+            ../../modules/home/import.nix
+            ../../modules/shared/import.nix
+          ];
 
-        home.stateVersion = "25.11";
+          home.stateVersion = "25.11";
 
-        # Enable home presets
-        presets.home.apps.firefox.enable = true;
-        presets.home.apps.neovim.enable = true;
-        presets.home.shell.zsh.enable = true;
-        presets.home.shell.tmux.enable = true;
-        presets.home.desktop.hyprland.enable = true;
+          # Enable home presets
+          presets.home.apps.firefox.enable = true;
+          presets.home.apps.neovim.enable = true;
+          presets.home.shell.zsh.enable = true;
+          presets.home.shell.tmux.enable = true;
+          presets.home.desktop.hyprland.enable = true;
 
-        # Enable shared CLI tools
-        presets.shared.cli-tools.enable = true;
-        presets.shared.cli-tools.git.useSSH = false;
+          # Enable shared CLI tools
+          presets.shared.cli-tools.enable = true;
+          presets.shared.cli-tools.git.useSSH = false;
 
-        # Enable shared apps
-        presets.shared.apps.nautilus.enable = true;
-      };
+          # Enable shared apps
+          presets.shared.apps.nautilus.enable = true;
+        };
     };
   };
 }

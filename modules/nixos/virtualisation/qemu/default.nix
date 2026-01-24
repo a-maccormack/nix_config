@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -12,7 +17,7 @@ with lib;
       qemu = {
         package = pkgs.qemu_kvm;
         runAsRoot = true;
-        swtpm.enable = true;        # TPM emulation
+        swtpm.enable = true; # TPM emulation
       };
     };
 
@@ -27,8 +32,8 @@ with lib;
 
     # Useful packages
     environment.systemPackages = with pkgs; [
-      spice-gtk        # Spice client with clipboard sharing
-      virt-viewer      # Alternative VM viewer
+      spice-gtk # Spice client with clipboard sharing
+      virt-viewer # Alternative VM viewer
     ];
   };
 }

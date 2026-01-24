@@ -1,4 +1,10 @@
-{ lib, pkgs, config, inputs, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -35,7 +41,10 @@
     # User account
     users.users.mac = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" ];
+      extraGroups = [
+        "wheel"
+        "docker"
+      ];
       shell = pkgs.bash;
     };
 
@@ -82,19 +91,21 @@
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      users.mac = { ... }: {
-        imports = [
-          ../../modules/home/import.nix
-          ../../modules/shared/import.nix
-        ];
+      users.mac =
+        { ... }:
+        {
+          imports = [
+            ../../modules/home/import.nix
+            ../../modules/shared/import.nix
+          ];
 
-        home.stateVersion = "25.11";
+          home.stateVersion = "25.11";
 
-        # Minimal CLI tools for server
-        presets.shared.cli-tools.vim.enable = true;
-        presets.shared.cli-tools.git.enable = true;
-        presets.shared.cli-tools.htop.enable = true;
-      };
+          # Minimal CLI tools for server
+          presets.shared.cli-tools.vim.enable = true;
+          presets.shared.cli-tools.git.enable = true;
+          presets.shared.cli-tools.htop.enable = true;
+        };
     };
   };
 }

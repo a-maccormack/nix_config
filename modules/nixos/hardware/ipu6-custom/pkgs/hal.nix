@@ -1,4 +1,13 @@
-{ lib, stdenv, fetchFromGitHub, cmake, pkg-config, libdrm, expat, intel-ipu6-camera-bins }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  libdrm,
+  expat,
+  intel-ipu6-camera-bins,
+}:
 
 stdenv.mkDerivation rec {
   pname = "intel-ipu6-camera-hal";
@@ -11,8 +20,15 @@ stdenv.mkDerivation rec {
     sha256 = "00whfzpr7af9fndg3861zjfyh3ygwsd3g801sdkl16cisz72qv35";
   };
 
-  nativeBuildInputs = [ cmake pkg-config ];
-  buildInputs = [ libdrm expat intel-ipu6-camera-bins ];
+  nativeBuildInputs = [
+    cmake
+    pkg-config
+  ];
+  buildInputs = [
+    libdrm
+    expat
+    intel-ipu6-camera-bins
+  ];
 
   PKG_CONFIG_PATH = "${intel-ipu6-camera-bins}/lib/pkgconfig";
 

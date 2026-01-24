@@ -1,4 +1,14 @@
-{ lib, stdenv, fetchFromGitHub, pkg-config, autoreconfHook, gst_all_1, intel-ipu6-camera-hal, libdrm, libva }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  pkg-config,
+  autoreconfHook,
+  gst_all_1,
+  intel-ipu6-camera-hal,
+  libdrm,
+  libva,
+}:
 
 stdenv.mkDerivation rec {
   pname = "icamerasrc-ipu6ep";
@@ -11,7 +21,10 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-BpIZxkPmSVKqPntwBJjGmCaMSYFCEZHJa4soaMAJRWE=";
   };
 
-  nativeBuildInputs = [ pkg-config autoreconfHook ];
+  nativeBuildInputs = [
+    pkg-config
+    autoreconfHook
+  ];
   buildInputs = [
     gst_all_1.gstreamer
     gst_all_1.gst-plugins-base

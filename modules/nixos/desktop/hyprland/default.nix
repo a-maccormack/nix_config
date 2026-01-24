@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -14,7 +19,10 @@ with lib;
     # XDG Portal for file dialogs, screen sharing
     xdg.portal = {
       enable = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
+      extraPortals = [
+        pkgs.xdg-desktop-portal-hyprland
+        pkgs.xdg-desktop-portal-gtk
+      ];
     };
 
     # dconf for GTK/libadwaita settings
