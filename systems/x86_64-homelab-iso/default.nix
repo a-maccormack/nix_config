@@ -220,13 +220,11 @@
         chown -R 1000:100 /mnt/srv
 
         echo -e "''${GREEN}Setting up Docker Compose...''${NC}"
-        # Copy nix_config repo for declarative docker-compose management
-        mkdir -p /mnt/home/mac/Dev/nix_config
-        cp -rT "$CONFIG_DIR" /mnt/home/mac/Dev/nix_config
-        # Symlink docker-compose directory
+        # Repo already cloned to $CONFIG_DIR (/mnt/home/mac/Dev/nix_config)
+        # Symlink docker-compose directory for easy access
         ln -s /home/mac/Dev/nix_config/hosts/homelab/docker-compose /mnt/home/mac/docker-compose
         # Create .env from example (gitignored, so needs to be a real file)
-        cp "$CONFIG_DIR/hosts/homelab/docker-compose/.env.example" /mnt/home/mac/Dev/nix_config/hosts/homelab/docker-compose/.env
+        cp "$CONFIG_DIR/hosts/homelab/docker-compose/.env.example" "$CONFIG_DIR/hosts/homelab/docker-compose/.env"
 
         # Fix ownership
         chown -R 1000:100 /mnt/home/mac
