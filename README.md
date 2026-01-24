@@ -155,6 +155,11 @@ nix flake update
 sudo nix-collect-garbage -d
 ```
 
+### Format Nix Files
+```bash
+nix run .#formatter.x86_64-linux -- **/*.nix
+```
+
 ---
 
 ## Module System

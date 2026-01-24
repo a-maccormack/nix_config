@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Format all staged .nix files
+STAGED_NIX_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.nix$')
+
+if [ -n "$STAGED_NIX_FILES" ]; then
+    echo "Formatting staged .nix files..."
+    echo "$STAGED_NIX_FILES" | xargs nix run .#formatter.x86_64-linux --
+
+    # Re-add formatted files to staging
+    echo "$STAGED_NIX_FILES" | xargs git add
+fi
