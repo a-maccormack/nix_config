@@ -26,14 +26,14 @@
 
   # NVMe encrypted root (manual unlock via SSH)
   boot.initrd.luks.devices."cryptroot" = {
-    device = "/dev/disk/by-uuid/<NVME_LUKS_UUID>";
+    device = "/dev/disk/by-uuid/0af55c0f-295c-4fee-9b01-8d2948e2b8a8";
     preLVM = true;
   };
 
   # HDD encrypted data volume (auto-unlock via keyfile)
   # The keyfile must be copied into initrd via boot.initrd.secrets
   boot.initrd.luks.devices."cryptdata" = {
-    device = "/dev/disk/by-uuid/<HDD_LUKS_UUID>";
+    device = "/dev/disk/by-uuid/46a77c10-ef84-4dd5-8310-b3c025c0697d";
     keyFile = "/etc/secrets/data-drive.key";
   };
 
@@ -49,7 +49,7 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/<BOOT_UUID>";
+    device = "/dev/disk/by-uuid/937A-9261";
     fsType = "vfat";
     options = [
       "fmask=0022"
