@@ -195,7 +195,7 @@ radarr_api_key: $RADARR_API_KEY
 EOF
 chmod 600 "${CONFIG_PATH}/recyclarr/secrets.yml"
 
-# Configure Pi-hole DNS for homelab services
+# Configure Pi-hole DNS for *.homelab wildcard
 log "Configuring Pi-hole DNS for homelab domain..."
 DOMAIN="${DOMAIN:-homelab}"
 # Get server IP (prefer Tailscale IP if available, fallback to local IP)
@@ -205,17 +205,19 @@ else
     SERVER_IP=$(ip -4 addr show scope global | grep inet | awk '{print $2}' | cut -d/ -f1 | head -n1)
 fi
 
-# Pi-hole v6 uses custom.list for local DNS records (not dnsmasq.d)
-log "Adding local DNS records to Pi-hole..."
-SERVICES="homelab jellyfin.homelab sonarr.homelab radarr.homelab prowlarr.homelab bazarr.homelab transmission.homelab pihole.homelab"
-for svc in $SERVICES; do
-    docker exec pihole bash -c "grep -q '$svc' /etc/pihole/custom.list 2>/dev/null || echo '$SERVER_IP $svc' >> /etc/pihole/custom.list"
-done
-log "Pi-hole: Added DNS records for *.${DOMAIN} -> ${SERVER_IP}"
+# Pi-hole v6 requires FTLCONF_misc_etc_dnsmasq_d=true to read from /etc/dnsmasq.d
+# This is set in docker-compose.yml
+mkdir -p "${CONFIG_PATH}/pihole/dnsmasq"
+cat > "${CONFIG_PATH}/pihole/dnsmasq/02-homelab.conf" << EOF
+# Wildcard DNS for homelab services
+# Routes all *.homelab requests to this server
+address=/.${DOMAIN}/${SERVER_IP}
+EOF
+log "Pi-hole: DNS wildcard *.${DOMAIN} -> ${SERVER_IP}"
 
-# Reload Pi-hole DNS
-log "Reloading Pi-hole DNS..."
-docker exec pihole pihole reloaddns > /dev/null 2>&1 || log "Pi-hole: reload skipped (may not be running yet)"
+# Restart Pi-hole to load new DNS config (required for dnsmasq.d changes)
+log "Restarting Pi-hole to apply DNS config..."
+docker restart pihole > /dev/null 2>&1 || log "Pi-hole: restart skipped (may not be running yet)"
 
 # Create initialized flag
 touch "$FLAG_FILE"
