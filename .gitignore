@@ -7,6 +7,7 @@ secrets/
 *.crt
 .env
 .env.*
+!.env.example
 credentials.json
 secrets.yaml
 secrets.nix
