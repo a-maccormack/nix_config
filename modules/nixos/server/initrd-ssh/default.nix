@@ -31,15 +31,15 @@ with lib;
 
       network = {
         enable = true;
+        udhcpc.enable = true;
         ssh = {
           enable = true;
           port = config.presets.server.initrd-ssh.port;
           authorizedKeys = config.presets.server.initrd-ssh.authorizedKeys;
           hostKeys = config.presets.server.initrd-ssh.hostKeys;
+          shell = "/bin/cryptsetup-askpass";
         };
       };
-
-      systemd.users.root.shell = "/bin/cryptsetup-askpass";
     };
   };
 }

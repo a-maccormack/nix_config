@@ -1,0 +1,49 @@
+# Caddy Reverse Proxy Configuration
+# Access services via https://<service>.{$DOMAIN}
+# Default domain: homelab (e.g., sonarr.homelab)
+#
+# DNS Setup Options:
+# 1. Add entries to /etc/hosts on your client machines
+# 2. Configure Tailscale DNS (admin console → DNS → Add nameserver)
+# 3. Use Pi-hole/AdGuard Home as DNS server
+
+{
+	# Use internal CA for local domains (no public DNS validation needed)
+	local_certs
+	# Skip OCSP stapling for internal certs
+	ocsp_stapling off
+}
+
+sonarr.{$DOMAIN:homelab} {
+	reverse_proxy sonarr:8989
+}
+
+radarr.{$DOMAIN:homelab} {
+	reverse_proxy radarr:7878
+}
+
+prowlarr.{$DOMAIN:homelab} {
+	reverse_proxy prowlarr:9696
+}
+
+bazarr.{$DOMAIN:homelab} {
+	reverse_proxy bazarr:6767
+}
+
+transmission.{$DOMAIN:homelab} {
+	reverse_proxy transmission:9091
+}
+
+jellyfin.{$DOMAIN:homelab} {
+	# Jellyfin uses host network, so we proxy to host gateway
+	reverse_proxy host.docker.internal:8096
+}
+
+pihole.{$DOMAIN:homelab} {
+	reverse_proxy pihole:80
+}
+
+# Homer dashboard as main landing page
+{$DOMAIN:homelab} {
+	reverse_proxy homer:8080
+}

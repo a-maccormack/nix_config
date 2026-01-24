@@ -88,3 +88,70 @@ services:
       - 51413:51413
       - 51413:51413/udp
     restart: unless-stopped
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - LOG_LEVEL=info
+      - TZ=${TZ}
+    ports:
+      - 8191:8191
+    restart: unless-stopped
+
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr:latest
+    container_name: recyclarr
+    user: ${PUID}:${PGID}
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ${CONFIG_PATH}/recyclarr:/config
+    restart: "no"
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    environment:
+      - TZ=${TZ}
+      - DOMAIN=${DOMAIN}
+    volumes:
+      - ${CONFIG_PATH}/caddy/data:/data
+      - ${CONFIG_PATH}/caddy/config:/config
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    ports:
+      - 80:80
+      - 443:443
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    environment:
+      - TZ=${TZ}
+      - WEBPASSWORD=${PIHOLE_PASSWORD}
+      - DNSMASQ_LISTENING=all
+    volumes:
+      - ${CONFIG_PATH}/pihole/etc:/etc/pihole
+      - ${CONFIG_PATH}/pihole/dnsmasq:/etc/dnsmasq.d
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 8053:80/tcp
+    restart: unless-stopped
+
+  homer:
+    image: b4bz/homer:latest
+    container_name: homer
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${CONFIG_PATH}/homer:/www/assets
+      - ./homer/config.yml:/www/assets/config.yml:ro
+    ports:
+      - 8080:8080
+    restart: unless-stopped
