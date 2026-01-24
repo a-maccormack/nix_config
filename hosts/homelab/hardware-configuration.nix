@@ -31,10 +31,15 @@
   };
 
   # HDD encrypted data volume (auto-unlock via keyfile)
+  # The keyfile must be copied into initrd via boot.initrd.secrets
   boot.initrd.luks.devices."cryptdata" = {
     device = "/dev/disk/by-uuid/<HDD_LUKS_UUID>";
     keyFile = "/etc/secrets/data-drive.key";
-    preLVM = false;
+  };
+
+  # Copy the keyfile into initrd so it's available before root is mounted
+  boot.initrd.secrets = {
+    "/etc/secrets/data-drive.key" = "/etc/secrets/data-drive.key";
   };
 
   # Filesystems
