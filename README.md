@@ -23,8 +23,16 @@
 | Host | Type | CPU | Storage | Key Features |
 |------|------|-----|---------|--------------|
 | `x1-carbon-g10` | ThinkPad Laptop | Intel 12th Gen (Alder Lake) | LUKS Encrypted | IPU6 Camera, Tailscale VPN, Bluetooth, Thunderbolt 3 |
+| `homelab` | ThinkCentre M910s Server | Intel | Dual LUKS (NVMe + HDD) | Headless, initrd SSH unlock, Docker media stack, WoL |
 | `vm` | Virtual Machine | QEMU/KVM | ext4 | Docker, Testing Environment |
-| `x86_64-iso` | Install Media | Generic | Live | Minimal bootable ISO with Flakes |
+
+### Installation Media
+
+| ISO | Purpose | Build Command |
+|-----|---------|---------------|
+| `iso` | Generic minimal installer | `nix build .#iso` |
+| `vm-iso` | VM installer with auto-setup | `nix build .#vm-iso` |
+| `homelab-iso` | Server installer with LUKS + media stack | `nix build .#homelab-iso` |
 
 ---
 
@@ -37,16 +45,17 @@ nix_config/
 │
 ├── hosts/                    # Per-machine configurations
 │   ├── vm/
-│   │   ├── configuration.nix
-│   │   └── hardware-configuration.nix
-│   └── x1-carbon-g10/
+│   ├── x1-carbon-g10/
+│   └── homelab/
 │       ├── configuration.nix
-│       └── hardware-configuration.nix
+│       ├── hardware-configuration.nix
+│       └── docker-compose/   # Media stack (Jellyfin, Sonarr, etc.)
 │
 ├── modules/
 │   ├── nixos/                # System-level modules
 │   │   ├── desktop/          # Hyprland, Ly, SDDM, 1Password
 │   │   ├── hardware/         # IPU6 camera stack
+│   │   ├── server/           # initrd-ssh, openssh, wol, power-management
 │   │   ├── system/           # Boot, Nix settings, GC
 │   │   └── virtualisation/   # Docker, Tailscale
 │   │
@@ -59,14 +68,17 @@ nix_config/
 │       ├── apps/             # GUI applications
 │       └── cli-tools/        # 35+ CLI utilities
 │
-├── systems/
-│   └── x86_64-iso/           # Bootable ISO builder
+├── systems/                  # Bootable ISO builders
+│   ├── x86_64-iso/
+│   ├── x86_64-vm-iso/
+│   └── x86_64-homelab-iso/
 │
 ├── lib/                      # Helper functions
-│   └── default.nix           # mkOpt, enabled, disabled
 │
-└── assets/
-    └── wallpapers/
+├── assets/
+│   └── wallpapers/
+│
+└── .githooks/                # Git hooks (auto-format on commit)
 ```
 
 ---
@@ -133,13 +145,15 @@ nix flake check --impure
 
 ### Deploy to a Host
 ```bash
-# Replace <hostname> with: vm, x1-carbon-g10
+# Replace <hostname> with: vm, x1-carbon-g10, homelab
 sudo nixos-rebuild switch --flake .#<hostname>
 ```
 
 ### Build Installation ISO
 ```bash
-nix build .#iso
+nix build .#iso          # Generic installer
+nix build .#vm-iso       # VM installer
+nix build .#homelab-iso  # Server installer with LUKS setup
 
 # Result in: ./result/iso/
 ```
@@ -158,6 +172,11 @@ sudo nix-collect-garbage -d
 ### Format Nix Files
 ```bash
 nix run .#formatter.x86_64-linux -- **/*.nix
+```
+
+### Setup Git Hooks (after fresh clone)
+```bash
+git config core.hooksPath .githooks
 ```
 
 ---
@@ -196,6 +215,7 @@ This config uses an **auto-discovery pattern** for modules. Simply create a new 
 |----------|-------|----------|
 | `presets.system.*` | NixOS | boot, nix/flakes, nix/gc |
 | `presets.desktop.*` | NixOS | hyprland, ly, 1password |
+| `presets.server.*` | NixOS | initrd-ssh, openssh, wol, power-management, docker-compose |
 | `presets.virtualisation.*` | NixOS | docker, tailscale |
 | `presets.hardware.*` | NixOS | ipu6-custom |
 | `presets.home.shell.*` | Home-Manager | zsh, tmux, bash |
