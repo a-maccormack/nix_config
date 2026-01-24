@@ -12,8 +12,9 @@ with lib;
     enable = mkEnableOption "Docker Compose auto-start";
 
     projectDirectory = mkOption {
-      type = types.path;
+      type = types.str;
       description = "Path to docker-compose.yml directory";
+      example = "/home/mac/docker-compose";
     };
   };
 

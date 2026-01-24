@@ -84,7 +84,7 @@
     # Docker Compose auto-start
     presets.server.docker-compose = {
       enable = true;
-      projectDirectory = /home/mac/docker-compose;
+      projectDirectory = "/home/mac/docker-compose";
     };
 
     # Minimal home-manager for headless server
