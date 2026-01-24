@@ -82,6 +82,18 @@
             nix-index-database.nixosModules.nix-index
           ];
         };
+
+        "homelab" = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+            inherit lib;
+          };
+
+          modules = [
+            ./hosts/homelab/configuration.nix
+            nix-index-database.nixosModules.nix-index
+          ];
+        };
       };
 
       packages = forEachSupportedSystem
@@ -118,6 +130,18 @@
               format = "iso";
               modules = [
                 ./systems/x86_64-vm-iso
+              ];
+            };
+
+            homelab-iso = nixos-generators.nixosGenerate {
+              specialArgs = {
+                inherit inputs;
+                inherit lib;
+              };
+              system = "x86_64-linux";
+              format = "iso";
+              modules = [
+                ./systems/x86_64-homelab-iso
               ];
             };
           }
