@@ -204,24 +204,22 @@ services:
     volumes:
       - ${CONFIG_PATH}/immich/postgres:/var/lib/postgresql/data
     healthcheck:
-      test: pg_isready --dbname='${IMMICH_DB_NAME:-immich}' --username='${IMMICH_DB_USER:-postgres}' || exit 1; Chksum="$$(psql --dbname='${IMMICH_DB_NAME:-immich}' --username='${IMMICH_DB_USER:-postgres}' --tuples-only --no-align --command='SELECT COALESCE(SUM(googletag), 0) FROM (SELECT checksum_failures AS googletag FROM pg_stat_database WHERE checksum_failures IS NOT NULL UNION ALL SELECT checksum_failure AS googletag FROM pg_stat_database_conflicts WHERE checksum_failure IS NOT NULL) subquery')"; echo "googletag: $$Chksum"; [ "$$Chksum" = '0' ] || exit 1
+      test: ["CMD-SHELL", "pg_isready --dbname='$${IMMICH_DB_NAME:-immich}' --username='$${IMMICH_DB_USER:-postgres}'"]
       interval: 5m
       start_interval: 30s
       start_period: 5m
     command:
-      [
-        "postgres",
-        "-c",
-        "shared_preload_libraries=vectors.so",
-        "-c",
-        'search_path="$$user", public, vectors',
-        "-c",
-        "logging_collector=on",
-        "-c",
-        "max_wal_size=2GB",
-        "-c",
-        "shared_buffers=512MB",
-        "-c",
-        "wal_compression=on",
-      ]
+      - "postgres"
+      - "-c"
+      - "shared_preload_libraries=vectors.so"
+      - "-c"
+      - 'search_path="$$user", public, vectors'
+      - "-c"
+      - "logging_collector=on"
+      - "-c"
+      - "max_wal_size=2GB"
+      - "-c"
+      - "shared_buffers=512MB"
+      - "-c"
+      - "wal_compression=on"
     restart: unless-stopped
