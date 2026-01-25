@@ -95,6 +95,7 @@
 
           # Enable shared CLI tools
           presets.shared.cli-tools.enable = true;
+          presets.shared.cli-tools.rust.enableCrossAarch64 = true;
 
           # Enable shared apps
           presets.shared.apps.enable = true;
