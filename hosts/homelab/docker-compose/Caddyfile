@@ -43,6 +43,10 @@ pihole.{$DOMAIN:homelab} {
 	reverse_proxy pihole:80
 }
 
+immich.{$DOMAIN:homelab} {
+	reverse_proxy immich-server:2283
+}
+
 # Homer dashboard as main landing page
 {$DOMAIN:homelab} {
 	reverse_proxy homer:8080

@@ -48,6 +48,12 @@ services:
         url: "https://jellyfin.homelab"
         target: "_blank"
 
+      - name: "Immich"
+        subtitle: "Photo & video backup"
+        logo: "https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg"
+        url: "https://immich.homelab"
+        target: "_blank"
+
       - name: "Transmission"
         subtitle: "Torrent client"
         logo: "https://raw.githubusercontent.com/transmission/transmission/main/web/assets/img/logo.png"

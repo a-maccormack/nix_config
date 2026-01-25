@@ -49,11 +49,17 @@ fi
 
 log "Starting media stack initialization..."
 
+# Create Immich directories
+log "Creating Immich directories..."
+mkdir -p "${CONFIG_PATH}/immich/ml-cache"
+mkdir -p "${CONFIG_PATH}/immich/postgres"
+
 # Wait for all services
 wait_for_service "Sonarr" "http://localhost:8989/api/v3/system/status"
 wait_for_service "Radarr" "http://localhost:7878/api/v3/system/status"
 wait_for_service "Prowlarr" "http://localhost:9696/api/v1/system/status"
 wait_for_service "Transmission" "http://localhost:9091/transmission/web/"
+wait_for_service "Immich" "http://localhost:2283/api/server-info/ping"
 
 # Get API keys
 SONARR_API_KEY=$(get_api_key "sonarr")
@@ -234,3 +240,6 @@ log "  2. Add indexers in Prowlarr UI (https://prowlarr.${DOMAIN})"
 log "     - Enable FlareSolverr proxy for Cloudflare-protected sites"
 log "  3. Run Recyclarr to sync quality profiles:"
 log "     docker compose run recyclarr sync"
+log "  4. Set up Immich (https://immich.${DOMAIN}):"
+log "     - Create admin account on first login"
+log "     - Install mobile app and configure server URL"
