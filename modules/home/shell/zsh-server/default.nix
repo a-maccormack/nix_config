@@ -1,4 +1,9 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -14,7 +19,6 @@ with lib;
 
       oh-my-zsh = {
         enable = true;
-        theme = "robbyrussell";
         plugins = [
           "git"
           "sudo"
@@ -22,6 +26,14 @@ with lib;
           "docker-compose"
         ];
       };
+
+      plugins = [
+        {
+          name = "powerlevel10k";
+          src = pkgs.zsh-powerlevel10k;
+          file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+        }
+      ];
 
       shellAliases = {
         # NixOS
@@ -37,9 +49,29 @@ with lib;
         logs = "sudo journalctl -fu";
       };
 
-      initContent = ''
-        # Server indicator in prompt
-        export PROMPT="[homelab] $PROMPT"
+      initContent = lib.mkOrder 550 ''
+        # Powerlevel10k classic style configuration (must be set before theme loads)
+        POWERLEVEL9K_MODE='nerdfont-complete'
+
+        # Left prompt: server icon + directory + git
+        POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(custom_server dir vcs)
+        POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time)
+
+        # Custom server icon segment
+        POWERLEVEL9K_CUSTOM_SERVER="echo -n '󰒋'"
+        POWERLEVEL9K_CUSTOM_SERVER_BACKGROUND='blue'
+        POWERLEVEL9K_CUSTOM_SERVER_FOREGROUND='white'
+
+        # Classic style settings
+        POWERLEVEL9K_PROMPT_ON_NEWLINE=false
+        POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
+
+        # Directory settings
+        POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
+        POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
+
+        # Git settings
+        POWERLEVEL9K_VCS_GIT_GITHUB_ICON=""
       '';
     };
   };

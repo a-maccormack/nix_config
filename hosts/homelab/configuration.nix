@@ -111,6 +111,7 @@
           presets.home.apps.neovim.enable = true;
           presets.shared.cli-tools.git.enable = true;
           presets.shared.cli-tools.htop.enable = true;
+          presets.shared.cli-tools.ripgrep.enable = true;
         };
     };
   };
