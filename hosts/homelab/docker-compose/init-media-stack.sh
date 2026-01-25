@@ -75,22 +75,23 @@ curl -sf -X POST "http://localhost:8989/api/v3/downloadclient" \
     -d '{
         "name": "Transmission",
         "implementation": "Transmission",
+        "implementationName": "Transmission",
         "configContract": "TransmissionSettings",
         "enable": true,
         "protocol": "torrent",
         "priority": 1,
         "fields": [
-            {"name": "host", "value": "transmission"},
-            {"name": "port", "value": 9091},
-            {"name": "urlBase", "value": "/transmission/"},
-            {"name": "username", "value": ""},
-            {"name": "password", "value": ""},
-            {"name": "tvCategory", "value": "tv-sonarr"},
-            {"name": "tvDirectory", "value": ""},
-            {"name": "recentTvPriority", "value": 0},
-            {"name": "olderTvPriority", "value": 0},
-            {"name": "addPaused", "value": false},
-            {"name": "useSsl", "value": false}
+            {"name": "Host", "value": "transmission"},
+            {"name": "Port", "value": 9091},
+            {"name": "UrlBase", "value": "/transmission/"},
+            {"name": "Username", "value": ""},
+            {"name": "Password", "value": ""},
+            {"name": "TvCategory", "value": "tv-sonarr"},
+            {"name": "TvDirectory", "value": ""},
+            {"name": "RecentTvPriority", "value": 0},
+            {"name": "OlderTvPriority", "value": 0},
+            {"name": "AddPaused", "value": false},
+            {"name": "UseSsl", "value": false}
         ]
     }' > /dev/null && log "Sonarr: Transmission configured" || log "Sonarr: Transmission may already exist"
 
@@ -109,22 +110,23 @@ curl -sf -X POST "http://localhost:7878/api/v3/downloadclient" \
     -d '{
         "name": "Transmission",
         "implementation": "Transmission",
+        "implementationName": "Transmission",
         "configContract": "TransmissionSettings",
         "enable": true,
         "protocol": "torrent",
         "priority": 1,
         "fields": [
-            {"name": "host", "value": "transmission"},
-            {"name": "port", "value": 9091},
-            {"name": "urlBase", "value": "/transmission/"},
-            {"name": "username", "value": ""},
-            {"name": "password", "value": ""},
-            {"name": "movieCategory", "value": "movies-radarr"},
-            {"name": "movieDirectory", "value": ""},
-            {"name": "recentMoviePriority", "value": 0},
-            {"name": "olderMoviePriority", "value": 0},
-            {"name": "addPaused", "value": false},
-            {"name": "useSsl", "value": false}
+            {"name": "Host", "value": "transmission"},
+            {"name": "Port", "value": 9091},
+            {"name": "UrlBase", "value": "/transmission/"},
+            {"name": "Username", "value": ""},
+            {"name": "Password", "value": ""},
+            {"name": "MovieCategory", "value": "movies-radarr"},
+            {"name": "MovieDirectory", "value": ""},
+            {"name": "RecentMoviePriority", "value": 0},
+            {"name": "OlderMoviePriority", "value": 0},
+            {"name": "AddPaused", "value": false},
+            {"name": "UseSsl", "value": false}
         ]
     }' > /dev/null && log "Radarr: Transmission configured" || log "Radarr: Transmission may already exist"
 
@@ -144,12 +146,13 @@ curl -sf -X POST "http://localhost:9696/api/v1/applications" \
         \"name\": \"Sonarr\",
         \"syncLevel\": \"fullSync\",
         \"implementation\": \"Sonarr\",
+        \"implementationName\": \"Sonarr\",
         \"configContract\": \"SonarrSettings\",
         \"fields\": [
-            {\"name\": \"prowlarrUrl\", \"value\": \"http://prowlarr:9696\"},
-            {\"name\": \"baseUrl\", \"value\": \"http://sonarr:8989\"},
-            {\"name\": \"apiKey\", \"value\": \"$SONARR_API_KEY\"},
-            {\"name\": \"syncCategories\", \"value\": [5000, 5010, 5020, 5030, 5040, 5045, 5050]}
+            {\"name\": \"ProwlarrUrl\", \"value\": \"http://prowlarr:9696\"},
+            {\"name\": \"BaseUrl\", \"value\": \"http://sonarr:8989\"},
+            {\"name\": \"ApiKey\", \"value\": \"$SONARR_API_KEY\"},
+            {\"name\": \"SyncCategories\", \"value\": [5000, 5010, 5020, 5030, 5040, 5045, 5050]}
         ]
     }" > /dev/null && log "Prowlarr: Sonarr connection configured" || log "Prowlarr: Sonarr connection may already exist"
 
@@ -162,12 +165,13 @@ curl -sf -X POST "http://localhost:9696/api/v1/applications" \
         \"name\": \"Radarr\",
         \"syncLevel\": \"fullSync\",
         \"implementation\": \"Radarr\",
+        \"implementationName\": \"Radarr\",
         \"configContract\": \"RadarrSettings\",
         \"fields\": [
-            {\"name\": \"prowlarrUrl\", \"value\": \"http://prowlarr:9696\"},
-            {\"name\": \"baseUrl\", \"value\": \"http://radarr:7878\"},
-            {\"name\": \"apiKey\", \"value\": \"$RADARR_API_KEY\"},
-            {\"name\": \"syncCategories\", \"value\": [2000, 2010, 2020, 2030, 2040, 2045, 2050, 2060]}
+            {\"name\": \"ProwlarrUrl\", \"value\": \"http://prowlarr:9696\"},
+            {\"name\": \"BaseUrl\", \"value\": \"http://radarr:7878\"},
+            {\"name\": \"ApiKey\", \"value\": \"$RADARR_API_KEY\"},
+            {\"name\": \"SyncCategories\", \"value\": [2000, 2010, 2020, 2030, 2040, 2045, 2050, 2060]}
         ]
     }" > /dev/null && log "Prowlarr: Radarr connection configured" || log "Prowlarr: Radarr connection may already exist"
 
@@ -179,10 +183,11 @@ curl -sf -X POST "http://localhost:9696/api/v1/indexerProxy" \
     -d '{
         "name": "FlareSolverr",
         "implementation": "FlareSolverr",
+        "implementationName": "FlareSolverr",
         "configContract": "FlareSolverrSettings",
         "fields": [
-            {"name": "host", "value": "http://flaresolverr:8191/"},
-            {"name": "requestTimeout", "value": 60}
+            {"name": "Host", "value": "http://flaresolverr:8191/"},
+            {"name": "RequestTimeout", "value": 60}
         ],
         "tags": []
     }' > /dev/null && log "Prowlarr: FlareSolverr proxy configured" || log "Prowlarr: FlareSolverr proxy may already exist"

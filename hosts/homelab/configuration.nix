@@ -45,8 +45,11 @@
         "wheel"
         "docker"
       ];
-      shell = pkgs.bash;
+      shell = pkgs.zsh;
     };
+
+    # Enable zsh system-wide
+    programs.zsh.enable = true;
 
     # System presets
     presets.system.boot.enable = true;
@@ -101,8 +104,11 @@
 
           home.stateVersion = "25.11";
 
-          # Minimal CLI tools for server
-          presets.shared.cli-tools.vim.enable = true;
+          # Shell with distinct server theme
+          presets.home.shell.zsh-server.enable = true;
+
+          # CLI tools for server
+          presets.home.apps.neovim.enable = true;
           presets.shared.cli-tools.git.enable = true;
           presets.shared.cli-tools.htop.enable = true;
         };
