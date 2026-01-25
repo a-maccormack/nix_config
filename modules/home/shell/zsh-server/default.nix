@@ -14,7 +14,7 @@ with lib;
 
       oh-my-zsh = {
         enable = true;
-        theme = "bira"; # Shows user@host prominently
+        theme = "robbyrussell";
         plugins = [
           "git"
           "sudo"
@@ -39,9 +39,7 @@ with lib;
 
       initContent = ''
         # Server indicator in prompt
-        export PROMPT="[SERVER] $PROMPT"
-
-        # Don't auto-start tmux on server
+        export PROMPT="[homelab] $PROMPT"
       '';
     };
   };
