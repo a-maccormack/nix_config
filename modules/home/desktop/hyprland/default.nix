@@ -62,6 +62,9 @@ with lib;
       Install.WantedBy = [ "hyprland-session.target" ];
     };
 
+    # SSH agent (for git, devcontainers, etc.)
+    services.ssh-agent.enable = true;
+
     # Session variables for Wayland
     home.sessionVariables = {
       XDG_CURRENT_DESKTOP = "Hyprland";

@@ -99,6 +99,13 @@
 
           # Enable shared apps
           presets.shared.apps.enable = true;
+
+          # python3 wrapper using uv
+          home.packages = [
+            (pkgs.writeShellScriptBin "python3" ''
+              exec uv run python3 "$@"
+            '')
+          ];
         };
     };
   };
