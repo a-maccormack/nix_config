@@ -17,6 +17,7 @@ with lib;
 
         setw -g mode-keys vi
         set -s escape-time 0
+        set -g focus-events on
 
         # Pane navigation with Alt + Shift + Vim keys
         bind -n M-h select-pane -L  # Alt+h
