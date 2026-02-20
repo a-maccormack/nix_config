@@ -18,7 +18,8 @@ let
       # Silent no-op on non-desktop systems
       command -v notify-send > /dev/null 2>&1 || exit 0
 
-      # Send notification and focus terminal on click (background so hook returns immediately)
+      # Send notification and focus terminal on click
+      # Fully detach so Claude doesn't wait on open file descriptors
       (
         notify-send "Claude Code" "${message}" \
           --app-name="Claude Code" \
@@ -27,7 +28,7 @@ let
           --wait
         # If clicked (not dismissed/expired), focus kitty
         hyprctl dispatch focuswindow "class:kitty" 2>/dev/null || true
-      ) &
+      ) </dev/null >/dev/null 2>&1 &
     '';
   notifyScript = mkClaudeNotifyScript {
     name = "claude-notify";
