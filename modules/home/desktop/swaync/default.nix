@@ -35,6 +35,11 @@ with lib;
             app-name = "Spotify";
             run-on = "action";
           };
+          slack-focus = {
+            exec = "hyprctl dispatch focuswindow class:Slack";
+            app-name = "Slack";
+            run-on = "action";
+          };
         };
       };
     };
