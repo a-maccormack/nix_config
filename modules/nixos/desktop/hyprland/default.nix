@@ -64,7 +64,6 @@ with lib;
       # Desktop tools
       waybar
       fuzzel
-      swaynotificationcenter
       # Terminal
       kitty
       # Screenshot

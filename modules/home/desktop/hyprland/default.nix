@@ -15,6 +15,7 @@ with lib;
     presets.home.desktop.waybar.enable = true;
     presets.home.desktop.fuzzel.enable = true;
     presets.home.desktop.hypridle.enable = true;
+    presets.home.desktop.swaync.enable = true;
 
     # Cursor theme - standard arrow cursor
     home.pointerCursor = {
@@ -253,7 +254,6 @@ with lib;
 
         exec-once = [
           "waybar"
-          "swaync"
           "hyprpaper"
           "hypridle"
         ];
