@@ -69,6 +69,7 @@
       enable = true;
       authorizedKeys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG4YM0f32wjlu6CfNmxGjqyzlh73Y7uWp0SbjdZtB/7P homelab"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIhZELVGdmsC0KhcRyMaAbBmZ9eqK3W+v8T7kUblQqUT mac-phone@homelab"
       ];
     };
 
