@@ -18,6 +18,9 @@ let
       # Silent no-op on non-desktop systems
       command -v notify-send > /dev/null 2>&1 || exit 0
 
+      # Capture tmux pane now (while we're still in Claude's environment)
+      PANE="$TMUX_PANE"
+
       # Send notification and focus terminal on click
       # Fully detach so Claude doesn't wait on open file descriptors
       (
@@ -26,8 +29,13 @@ let
           --icon=${claudeIcon} \
           --action=default=Focus \
           --wait
-        # If clicked (not dismissed/expired), focus kitty
+        # If clicked (not dismissed/expired), focus kitty and switch to the right tmux session
         hyprctl dispatch focuswindow "class:kitty" 2>/dev/null || true
+        if [ -n "$PANE" ]; then
+          TARGET=$(tmux display-message -p -t "$PANE" '#{session_name}:#{window_index}')
+          tmux switch-client -t "$TARGET" 2>/dev/null || true
+          tmux select-pane -t "$PANE" 2>/dev/null || true
+        fi
       ) </dev/null >/dev/null 2>&1 &
     '';
   notifyScript = mkClaudeNotifyScript {
