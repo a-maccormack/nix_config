@@ -129,6 +129,7 @@
         git clone https://github.com/a-maccormack/nix_config.git "$CONFIG_DIR"
 
         echo -e "''${GREEN}[6/7] Auto-detecting hardware configuration...''${NC}"
+        mkdir -p "$CONFIG_DIR/hosts/workstation"
         nixos-generate-config --root /mnt --show-hardware-config > "$CONFIG_DIR/hosts/workstation/hardware-configuration.nix"
         echo -e "''${CYAN}Hardware configuration written (commit this back to your repo after install).''${NC}"
 
