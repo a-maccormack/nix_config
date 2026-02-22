@@ -109,6 +109,18 @@ services:
       - ${CONFIG_PATH}/recyclarr:/config
     restart: "no"
 
+  restic:
+    image: restic/rest-server:latest
+    container_name: restic
+    environment:
+      - TZ=${TZ}
+      - OPTIONS=--append-only
+    volumes:
+      - ${BACKUPS_PATH}:/data
+    ports:
+      - 8000:8000
+    restart: unless-stopped
+
   caddy:
     image: caddy:latest
     container_name: caddy

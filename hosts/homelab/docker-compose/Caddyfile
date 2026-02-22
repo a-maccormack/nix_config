@@ -47,6 +47,10 @@ immich.{$DOMAIN:homelab} {
 	reverse_proxy immich-server:2283
 }
 
+restic.{$DOMAIN:homelab} {
+	reverse_proxy restic:8000
+}
+
 # Homer dashboard as main landing page
 {$DOMAIN:homelab} {
 	reverse_proxy homer:8080
