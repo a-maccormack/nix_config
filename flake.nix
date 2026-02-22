@@ -95,6 +95,18 @@
             nix-index-database.nixosModules.nix-index
           ];
         };
+
+        "workstation" = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+            inherit lib;
+          };
+
+          modules = [
+            ./hosts/workstation/configuration.nix
+            nix-index-database.nixosModules.nix-index
+          ];
+        };
       };
 
       formatter = forEachSupportedSystem ({ pkgs }: pkgs.nixfmt-rfc-style);
@@ -144,6 +156,18 @@
             format = "iso";
             modules = [
               ./systems/x86_64-homelab-iso
+            ];
+          };
+
+          desktop-iso = nixos-generators.nixosGenerate {
+            specialArgs = {
+              inherit inputs;
+              inherit lib;
+            };
+            system = "x86_64-linux";
+            format = "iso";
+            modules = [
+              ./systems/x86_64-desktop-iso
             ];
           };
         }
