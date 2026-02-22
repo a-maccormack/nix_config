@@ -222,7 +222,7 @@ with lib;
           "$mod SHIFT, P, exec, grim - | satty -f - --copy-command wl-copy"
 
           # Lock screen
-          "$mod, Escape, exec, WLR_RENDERER_ALLOW_SOFTWARE=1 hyprlock"
+          "$mod, Escape, exec, loginctl lock-session"
 
           # Enter move mode
           "$mod, a, submap, move"
