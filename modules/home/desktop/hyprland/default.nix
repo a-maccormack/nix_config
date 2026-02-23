@@ -221,6 +221,9 @@ with lib;
           "$mod, P, exec, grim -g \"$(slurp)\" - | satty -f - --copy-command wl-copy"
           "$mod SHIFT, P, exec, grim - | satty -f - --copy-command wl-copy"
 
+          # Focus last Claude notification
+          "$mod, O, exec, claude-focus"
+
           # Lock screen
           "$mod, Escape, exec, loginctl lock-session"
 
