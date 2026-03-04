@@ -17,6 +17,12 @@ with lib;
     presets.home.desktop.hypridle.enable = true;
     presets.home.desktop.swaync.enable = true;
 
+    # xdg-desktop-portal-gtk must be in the same profile as xdg-desktop-portal-hyprland.
+    # HM adds the hyprland portal to the per-user profile, and the portal daemon only
+    # loads .portal files from the first portals/ directory it finds. Without gtk.portal
+    # alongside hyprland.portal, the Access and Camera interfaces are missing.
+    home.packages = [ pkgs.xdg-desktop-portal-gtk ];
+
     # Cursor theme - standard arrow cursor
     home.pointerCursor = {
       name = "Adwaita";
