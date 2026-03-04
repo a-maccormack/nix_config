@@ -256,8 +256,9 @@
                   continue
                 fi
 
-                # Check if a Video/Source node already exists
-                if wpctl status 2>/dev/null | grep -q "Video/Source\|v4l2_input.*virtual"; then
+                # Check if a Video/Source node already exists.
+                # wpctl shows it as "Intel MIPI Camera (V4L2)" under Sources.
+                if wpctl status 2>/dev/null | grep -q "Intel MIPI Camera (V4L2)"; then
                   continue
                 fi
 
