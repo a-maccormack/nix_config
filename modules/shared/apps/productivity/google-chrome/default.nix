@@ -12,6 +12,10 @@ with lib;
     mkEnableOption "Google Chrome Browser";
 
   config = mkIf config.presets.shared.apps.productivity.google-chrome.enable {
-    home.packages = [ pkgs.google-chrome ];
+    home.packages = [
+      (pkgs.google-chrome.override {
+        commandLineArgs = "--enable-features=WebRTCPipeWireCapturer";
+      })
+    ];
   };
 }
