@@ -11,6 +11,11 @@ with lib;
   options.presets.shared.cli-tools.gcloud.enable = mkEnableOption "Google Cloud CLI";
 
   config = mkIf config.presets.shared.cli-tools.gcloud.enable {
-    home.packages = [ pkgs.google-cloud-sdk ];
+    home.packages = [
+      (pkgs.google-cloud-sdk.withExtraComponents [
+        pkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin
+      ])
+      pkgs.kubectl
+    ];
   };
 }
