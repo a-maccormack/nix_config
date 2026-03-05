@@ -21,7 +21,9 @@ with lib;
     # HM adds the hyprland portal to the per-user profile, and the portal daemon only
     # loads .portal files from the first portals/ directory it finds. Without gtk.portal
     # alongside hyprland.portal, the Access and Camera interfaces are missing.
-    home.packages = [ pkgs.xdg-desktop-portal-gtk ];
+    home.packages = [
+      pkgs.xdg-desktop-portal-gtk
+    ];
 
     # Cursor theme - standard arrow cursor
     home.pointerCursor = {
@@ -65,6 +67,24 @@ with lib;
         ExecStart = "${pkgs.swayosd}/bin/swayosd-server";
         Restart = "on-failure";
         RestartSec = 1;
+      };
+      Install.WantedBy = [ "hyprland-session.target" ];
+    };
+
+    # Polkit agent for 1Password, privilege escalation dialogs, etc.
+    systemd.user.services.polkit-kde-agent = {
+      Unit = {
+        Description = "KDE Polkit Authentication Agent";
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
+        Restart = "on-failure";
+        Environment = [
+          "QT_QPA_PLATFORMTHEME=adwaita"
+          "QT_STYLE_OVERRIDE=adwaita-dark"
+        ];
       };
       Install.WantedBy = [ "hyprland-session.target" ];
     };
