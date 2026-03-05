@@ -64,6 +64,7 @@
     presets.desktop.ly.enable = true;
     presets.desktop.hyprland.enable = true;
     presets.desktop._1password.enable = true;
+    presets.desktop.fingerprint.enable = true;
     presets.virtualisation.docker.enable = true;
     presets.virtualisation.tailscale.enable = true;
     presets.virtualisation.qemu.enable = true;
