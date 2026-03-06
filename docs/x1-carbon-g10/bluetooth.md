@@ -36,6 +36,23 @@ services.pipewire.wireplumber.extraConfig."50-bluez-rules" = {
 };
 ```
 
+### A2DP → HFP auto-switch when apps request microphone
+
+When a WebRTC app (Google Meet, Slack, etc.) requests microphone access, WirePlumber auto-switches BT headphones from A2DP (high-quality stereo) to HFP (low-quality mono + mic). This interrupts other audio (e.g. Spotify) and degrades sound quality, even when a separate USB camera mic is available.
+
+**Fix:** Disable `bluez5.autoswitch-profile` for all BT devices:
+
+```nix
+services.pipewire.wireplumber.extraConfig."51-bluez-no-autoswitch" = {
+  "monitor.bluez.rules" = [{
+    matches = [{ "device.name" = "~bluez_card.*"; }];
+    actions.update-props."bluez5.autoswitch-profile" = false;
+  }];
+};
+```
+
+After this, manually select the USB camera mic in Meet/Slack settings instead of the BT headset mic.
+
 ### bluez main.conf section placement
 
 `ReconnectAttempts` and `ReconnectIntervals` belong under `[Policy]`, not `[General]`. Placing them under `[General]` produces `Unknown key` warnings and the settings are ignored. bluez 5.84 valid sections:

@@ -59,6 +59,17 @@
         }
       ];
     };
+
+    # Prevent WirePlumber from auto-switching BT headphones to HSP/HFP
+    # when an app requests a microphone (keeps A2DP for high-quality audio)
+    services.pipewire.wireplumber.extraConfig."51-bluez-no-autoswitch" = {
+      "monitor.bluez.rules" = [
+        {
+          matches = [ { "device.name" = "~bluez_card.*"; } ];
+          actions.update-props."bluez5.autoswitch-profile" = false;
+        }
+      ];
+    };
     services.udisks2.enable = true;
     services.gvfs.enable = true;
 
