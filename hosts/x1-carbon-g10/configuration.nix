@@ -26,6 +26,20 @@
     # Bluetooth
     hardware.bluetooth.enable = true;
     hardware.bluetooth.powerOnBoot = true;
+    hardware.bluetooth.settings = {
+      General = {
+        FastConnectable = true;
+      };
+      Policy = {
+        ReconnectAttempts = 7;
+        ReconnectIntervals = "1,2,4,8,16,32,64";
+      };
+    };
+
+    # Disable btusb autosuspend to prevent BT adapter from sleeping mid-connection
+    boot.extraModprobeConfig = ''
+      options btusb enable_autosuspend=n
+    '';
 
     # IPU6 - native module with HAL linkage fix
     hardware.ipu6-overlay.enable = true; # Fix icamerasrc-ipu6ep HAL linkage
@@ -35,6 +49,16 @@
     };
     hardware.ipu6-custom.enable = false;
     services.blueman.enable = true;
+
+    # Prevent aggressive BT audio sink suspension
+    services.pipewire.wireplumber.extraConfig."50-bluez-rules" = {
+      "monitor.bluez.rules" = [
+        {
+          matches = [ { "node.name" = "~bluez_output.*"; } ];
+          actions.update-props."session.suspend-timeout-seconds" = 60;
+        }
+      ];
+    };
     services.udisks2.enable = true;
     services.gvfs.enable = true;
 

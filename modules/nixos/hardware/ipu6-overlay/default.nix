@@ -67,7 +67,7 @@
             ];
             actions = {
               update-props = {
-                "session.suspend-timeout-seconds" = 10;
+                "session.suspend-timeout-seconds" = 86400;
               };
             };
           }
@@ -235,6 +235,7 @@
           let
             script = pkgs.writeShellScript "ipu6-wireplumber-reprobe" ''
               DEVICE_FILE="/run/v4l2-relayd-ipu6/device"
+              RESTART_COUNT=0
 
               while true; do
                 sleep 5
@@ -258,11 +259,18 @@
 
                 # Check if a Video/Source node already exists.
                 # wpctl shows it as "Intel MIPI Camera (V4L2)" under Sources.
-                if wpctl status 2>/dev/null | grep -q "Intel MIPI Camera (V4L2)"; then
+                if ${pkgs.wireplumber}/bin/wpctl status 2>/dev/null | grep -q "Intel MIPI Camera (V4L2)"; then
+                  RESTART_COUNT=0
                   continue
                 fi
 
-                echo "CAPTURE available on $DEVICE but no Video/Source node — restarting WirePlumber"
+                RESTART_COUNT=$((RESTART_COUNT + 1))
+                if [ "$RESTART_COUNT" -ge 5 ]; then
+                  echo "Giving up after $RESTART_COUNT WirePlumber restarts — node never appeared"
+                  exit 1
+                fi
+
+                echo "CAPTURE available on $DEVICE but no Video/Source node — restarting WirePlumber (attempt $RESTART_COUNT/5)"
                 sleep 3  # let v4l2-relayd pipeline fully stabilize
                 systemctl --user restart wireplumber
                 sleep 10  # avoid rapid restart loops
