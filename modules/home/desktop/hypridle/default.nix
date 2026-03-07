@@ -41,6 +41,15 @@ with lib;
           hide_cursor = true;
         };
 
+        # Concurrent fingerprint + password auth (fingerprint OR password to unlock)
+        auth = {
+          fingerprint = {
+            enabled = true;
+            ready_message = "󰈷  Touch to unlock";
+            present_message = "󰈷 ";
+          };
+        };
+
         background = [
           {
             monitor = "";
@@ -108,6 +117,28 @@ with lib;
             font_family = "monospace";
             color = "rgb(a6adc8)";
             position = "0, -80";
+            halign = "center";
+            valign = "center";
+          }
+          # Fingerprint prompt (ready/scanning/retry)
+          {
+            monitor = "";
+            text = "$FPRINTPROMPT";
+            font_size = 14;
+            font_family = "JetBrainsMono Nerd Font";
+            color = "rgb(a6adc8)";
+            position = "0, -120";
+            halign = "center";
+            valign = "center";
+          }
+          # Fingerprint failure
+          {
+            monitor = "";
+            text = "$FPRINTFAIL";
+            font_size = 14;
+            font_family = "JetBrainsMono Nerd Font";
+            color = "rgb(f38ba8)";
+            position = "0, -160";
             halign = "center";
             valign = "center";
           }
