@@ -1,0 +1,13 @@
+name: "build: workstation"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-host.yml
+    with:
+      host: workstation

@@ -20,11 +20,12 @@
 
 ## Devices
 
-| Host | Type | CPU | Storage | Key Features |
-|------|------|-----|---------|--------------|
-| `x1-carbon-g10` | ThinkPad Laptop | Intel 12th Gen (Alder Lake) | LUKS Encrypted | IPU6 Camera, Tailscale VPN, Bluetooth, Thunderbolt 3 |
-| `homelab` | ThinkCentre M910s Server | Intel | Dual LUKS (NVMe + HDD) | Headless, initrd SSH unlock, Docker media stack, WoL |
-| `vm` | Virtual Machine | QEMU/KVM | ext4 | Docker, Testing Environment |
+| Host | Build | Type | CPU | Storage | Key Features |
+|------|-------|------|-----|---------|--------------|
+| `x1-carbon-g10` | [![build](https://img.shields.io/github/actions/workflow/status/a-maccormack/nix_config/build-x1-carbon-g10.yml?branch=main&label=build&style=flat-square)](https://github.com/a-maccormack/nix_config/actions/workflows/build-x1-carbon-g10.yml) | ThinkPad Laptop | Intel 12th Gen (Alder Lake) | LUKS Encrypted | IPU6 Camera, Fingerprint, Tailscale VPN, Bluetooth |
+| `workstation` | [![build](https://img.shields.io/github/actions/workflow/status/a-maccormack/nix_config/build-workstation.yml?branch=main&label=build&style=flat-square)](https://github.com/a-maccormack/nix_config/actions/workflows/build-workstation.yml) | Desktop | NVIDIA GPU | LUKS Encrypted | Tailscale VPN, Bluetooth, Docker |
+| `homelab` | [![build](https://img.shields.io/github/actions/workflow/status/a-maccormack/nix_config/build-homelab.yml?branch=main&label=build&style=flat-square)](https://github.com/a-maccormack/nix_config/actions/workflows/build-homelab.yml) | ThinkCentre M910s Server | Intel | Dual LUKS (NVMe + HDD) | Headless, initrd SSH unlock, Docker media stack, WoL |
+| `vm` | [![build](https://img.shields.io/github/actions/workflow/status/a-maccormack/nix_config/build-vm.yml?branch=main&label=build&style=flat-square)](https://github.com/a-maccormack/nix_config/actions/workflows/build-vm.yml) | Virtual Machine | QEMU/KVM | ext4 | Docker, Testing Environment |
 
 ### Installation Media
 
@@ -46,6 +47,7 @@ nix_config/
 ├── hosts/                    # Per-machine configurations
 │   ├── vm/
 │   ├── x1-carbon-g10/
+│   ├── workstation/
 │   └── homelab/
 │       ├── configuration.nix
 │       ├── hardware-configuration.nix
@@ -145,7 +147,7 @@ nix flake check --impure
 
 ### Deploy to a Host
 ```bash
-# Replace <hostname> with: vm, x1-carbon-g10, homelab
+# Replace <hostname> with: vm, x1-carbon-g10, workstation, homelab
 sudo nixos-rebuild switch --flake .#<hostname>
 ```
 

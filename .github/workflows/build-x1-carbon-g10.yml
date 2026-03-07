@@ -1,0 +1,13 @@
+name: "build: x1-carbon-g10"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-host.yml
+    with:
+      host: x1-carbon-g10
