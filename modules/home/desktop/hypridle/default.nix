@@ -2,10 +2,16 @@
 
 with lib;
 
+let
+  cfg = config.presets.home.desktop.hypridle;
+in
 {
-  options.presets.home.desktop.hypridle.enable = mkEnableOption "Hypridle and Hyprlock";
+  options.presets.home.desktop.hypridle = {
+    enable = mkEnableOption "Hypridle and Hyprlock";
+    fingerprint = mkEnableOption "fingerprint authentication for Hyprlock";
+  };
 
-  config = mkIf config.presets.home.desktop.hypridle.enable {
+  config = mkIf cfg.enable {
     # Hypridle (idle daemon)
     services.hypridle = {
       enable = true;
@@ -40,7 +46,8 @@ with lib;
         general = {
           hide_cursor = true;
         };
-
+      }
+      // optionalAttrs cfg.fingerprint {
         # Concurrent fingerprint + password auth (fingerprint OR password to unlock)
         auth = {
           fingerprint = {
@@ -49,7 +56,8 @@ with lib;
             present_message = "󰈷 ";
           };
         };
-
+      }
+      // {
         background = [
           {
             monitor = "";
@@ -120,6 +128,8 @@ with lib;
             halign = "center";
             valign = "center";
           }
+        ]
+        ++ optionals cfg.fingerprint [
           # Fingerprint prompt (ready/scanning/retry)
           {
             monitor = "";
