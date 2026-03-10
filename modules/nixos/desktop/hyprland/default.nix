@@ -34,6 +34,13 @@ with lib;
     # Keyring for secrets (gh, ssh-agent, etc.)
     services.gnome.gnome-keyring.enable = true;
 
+    # Restart NetworkManager after suspend — WiFi adapter sometimes fails to
+    # reassociate on wake, leaving the connection dead despite the status bar
+    # showing it as connected.
+    powerManagement.resumeCommands = ''
+      ${pkgs.systemd}/bin/systemctl restart NetworkManager
+    '';
+
     # Lid close behavior - suspend (hypridle handles locking via before_sleep_cmd)
     services.logind.settings.Login = {
       HandleLidSwitch = "suspend";

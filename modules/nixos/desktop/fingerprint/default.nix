@@ -1,4 +1,9 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -7,6 +12,12 @@ with lib;
 
   config = mkIf config.presets.desktop.fingerprint.enable {
     services.fprintd.enable = true;
+
+    # Restart fprintd after suspend — the sensor loses its USB connection
+    # during sleep and fprintd doesn't re-enumerate it automatically.
+    powerManagement.resumeCommands = ''
+      ${pkgs.systemd}/bin/systemctl restart fprintd
+    '';
 
     # Disable fprintd PAM globally (it defaults to true for all services
     # when fprintd is enabled, which causes blocking: the fingerprint prompt
