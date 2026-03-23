@@ -13,11 +13,20 @@ with lib;
   config = mkIf config.presets.desktop.fingerprint.enable {
     services.fprintd.enable = true;
 
-    # Restart fprintd after suspend — the sensor loses its USB connection
-    # during sleep and fprintd doesn't re-enumerate it automatically.
-    powerManagement.resumeCommands = ''
-      ${pkgs.systemd}/bin/systemctl restart fprintd
+    # Restart fprintd when the fingerprint sensor appears on the USB bus.
+    # This handles both cold boot (sensor enumerated after fprintd starts)
+    # and resume from suspend (sensor re-enumerated after wake).
+    services.udev.extraRules = ''
+      ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="06cb", ATTR{idProduct}=="00fc", TAG+="systemd", ENV{SYSTEMD_WANTS}+="fprintd-restart.service"
     '';
+
+    systemd.services.fprintd-restart = {
+      description = "Restart fprintd to pick up fingerprint sensor";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.systemd}/bin/systemctl restart fprintd";
+      };
+    };
 
     # Disable fprintd PAM globally (it defaults to true for all services
     # when fprintd is enabled, which causes blocking: the fingerprint prompt
