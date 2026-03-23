@@ -84,11 +84,13 @@
         "wheel"
         "networkmanager"
         "video"
+        "adbusers"
       ];
       shell = pkgs.zsh;
     };
 
     # Enable zsh system-wide
+    programs.adb.enable = true;
     programs.zsh.enable = true;
 
     # Enable presets
