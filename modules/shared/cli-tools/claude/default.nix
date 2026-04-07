@@ -50,14 +50,17 @@ let
 
         # Wait for notification to be clicked or dismissed
         wait $NPID
+        read -r ACTION <&3 2>/dev/null || true
         exec 3<&-
         rm -f "$FIFO"
 
-        # If clicked (not dismissed/expired), focus kitty and switch to the right tmux session
-        hyprctl dispatch focuswindow "class:kitty" 2>/dev/null || true
-        if [ -n "$PANE" ]; then
-          tmux switch-client -t "$TARGET" 2>/dev/null || true
-          tmux select-pane -t "$PANE" 2>/dev/null || true
+        # Only focus if the notification action was clicked (not dismissed/expired)
+        if [ "$ACTION" = "default" ]; then
+          hyprctl dispatch focuswindow "class:kitty" 2>/dev/null || true
+          if [ -n "$PANE" ]; then
+            tmux switch-client -t "$TARGET" 2>/dev/null || true
+            tmux select-pane -t "$PANE" 2>/dev/null || true
+          fi
         fi
       ) </dev/null >/dev/null 2>&1 &
     '';
