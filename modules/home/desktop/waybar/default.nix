@@ -57,8 +57,9 @@ with lib;
           };
 
           clock = {
-            format = "{:%H:%M}";
-            format-alt = "{:%Y-%m-%d}";
+            interval = 1;
+            format = "{:%a %d %b %H:%M}";
+            format-alt = "{:%H:%M:%S (%V/52)}";
             tooltip-format = "<tt>{calendar}</tt>";
           };
 
@@ -137,8 +138,15 @@ with lib;
         }
 
         window#waybar {
-          background-color: rgba(26, 27, 38, 0.9);
+          background-color: transparent;
           color: #cdd6f4;
+        }
+
+        #workspaces {
+          background-color: rgba(26, 27, 38, 0.9);
+          border-radius: 10px;
+          padding: 0 4px;
+          margin: 4px 0 0 6px;
         }
 
         #workspaces button {
@@ -153,8 +161,29 @@ with lib;
           color: #1e1e2e;
         }
 
-        #clock, #cpu, #memory, #network, #pulseaudio, #battery, #bluetooth, #language, #tray {
+        #clock {
+          background-color: rgba(26, 27, 38, 0.9);
+          border-radius: 10px;
+          padding: 0 14px;
+          margin: 4px 0 0 0;
+        }
+
+        #language, #pulseaudio, #bluetooth, #network, #battery, #cpu, #memory, #tray {
+          background-color: rgba(26, 27, 38, 0.9);
           padding: 0 10px;
+          margin-top: 4px;
+        }
+
+        #language {
+          border-radius: 10px 0 0 10px;
+          margin-left: 0;
+          padding-left: 14px;
+        }
+
+        #tray {
+          border-radius: 0 10px 10px 0;
+          margin-right: 6px;
+          padding-right: 14px;
         }
 
         #battery.charging, #battery.plugged {
