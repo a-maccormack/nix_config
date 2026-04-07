@@ -130,6 +130,7 @@
           presets.home.shell.zsh.enable = true;
           presets.home.shell.tmux.enable = true;
           presets.home.desktop.hyprland.enable = true;
+          presets.home.desktop.hyprland-displays.enable = true;
           presets.home.desktop.hypridle.fingerprint = true;
           presets.home.desktop.blueman.enable = true;
 

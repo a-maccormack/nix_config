@@ -105,6 +105,15 @@ with lib;
       XCURSOR_SIZE = "24";
     };
 
+    # Swappy screenshot editor config
+    xdg.configFile."swappy/config".text = ''
+      [Default]
+      save_dir=$HOME/Pictures/Screenshots
+      save_filename_format=%Y-%m-%d_%H-%M.png
+      early_exit=true
+      auto_save=true
+    '';
+
     # Hyprland configuration
     wayland.windowManager.hyprland = {
       enable = true;
@@ -245,11 +254,15 @@ with lib;
           "$mod, mouse_up, workspace, e-1"
 
           # Screenshot (opens Satty for annotation)
-          "$mod, P, exec, grim -g \"$(slurp)\" - | satty -f - --copy-command wl-copy"
-          "$mod SHIFT, P, exec, grim - | satty -f - --copy-command wl-copy"
+          "$mod, P, exec, grim -g \"$(slurp)\" - | swappy -f -"
+          "$mod SHIFT, P, exec, grim - | swappy -f -"
 
           # Focus last Claude notification
           "$mod, O, exec, claude-focus"
+
+          # Display management
+          "$mod, W, exec, nwg-displays"
+          "$mod SHIFT, W, exec, hyprland-mirror"
 
           # Lock screen
           "$mod, Escape, exec, loginctl lock-session"

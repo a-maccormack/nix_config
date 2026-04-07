@@ -67,7 +67,6 @@ with lib;
       wl-clipboard
       # Keyring CLI
       libsecret
-      wdisplays
       xdg-utils
       # Icons
       hicolor-icon-theme
@@ -84,7 +83,7 @@ with lib;
       # Screenshot
       grim
       slurp
-      satty
+      swappy
       # Audio/brightness control
       brightnessctl
       pamixer
