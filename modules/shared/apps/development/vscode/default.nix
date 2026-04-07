@@ -13,7 +13,7 @@ with lib;
   config = mkIf config.presets.shared.apps.development.vscode.enable {
     programs.vscode = {
       enable = true;
-      userSettings = {
+      profiles.default.userSettings = {
         "extensions.autoUpdate" = true;
       };
     };
