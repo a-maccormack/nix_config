@@ -261,7 +261,7 @@ with lib;
           "$mod, O, exec, claude-focus"
 
           # Display management
-          "$mod, W, exec, nwg-displays"
+          "$mod, W, exec, wdisplays"
           "$mod SHIFT, W, exec, hyprland-mirror"
 
           # Lock screen
@@ -296,7 +296,6 @@ with lib;
         ];
 
         exec-once = [
-          "waybar"
           "hyprpaper"
           "hypridle"
         ];
