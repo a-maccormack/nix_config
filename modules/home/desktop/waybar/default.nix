@@ -168,21 +168,26 @@ with lib;
           margin: 4px 0 0 0;
         }
 
-        #language, #pulseaudio, #bluetooth, #network, #battery, #cpu, #memory, #tray {
+        .modules-right {
           background-color: rgba(26, 27, 38, 0.9);
+          border-radius: 10px;
+          margin: 4px 6px 0 0;
+        }
+
+        #language, #pulseaudio, #bluetooth, #network, #battery, #cpu, #memory, #tray {
+          background-color: transparent;
           padding: 0 10px;
-          margin-top: 4px;
         }
 
         #language {
-          border-radius: 10px 0 0 10px;
-          margin-left: 0;
           padding-left: 14px;
         }
 
         #tray {
-          border-radius: 0 10px 10px 0;
-          margin-right: 6px;
+          padding-right: 14px;
+        }
+
+        #memory {
           padding-right: 14px;
         }
 
