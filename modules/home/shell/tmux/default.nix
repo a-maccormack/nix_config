@@ -6,6 +6,12 @@ with lib;
   options.presets.home.shell.tmux.enable = mkEnableOption "Tmux terminal multiplexer";
 
   config = mkIf config.presets.home.shell.tmux.enable {
+    home.activation.reloadTmux = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if command -v tmux &>/dev/null && tmux list-sessions &>/dev/null; then
+        tmux source-file ~/.config/tmux/tmux.conf || true
+      fi
+    '';
+
     programs.tmux = {
       enable = true;
       extraConfig = ''
@@ -35,8 +41,22 @@ with lib;
         # Split pane down with Ctrl+Alt+D (inherit cwd)
         bind -n C-M-d split-window -v -c "#{pane_current_path}"
 
+        # Swap mode (Alt+a to enter, h/j/k/l to swap pane in direction, Escape/Enter to exit)
+        bind -n M-a switch-client -T swap
+        bind -T swap h swap-pane -s '{left-of}' \; switch-client -T swap
+        bind -T swap j swap-pane -s '{down-of}' \; switch-client -T swap
+        bind -T swap k swap-pane -s '{up-of}' \; switch-client -T swap
+        bind -T swap l swap-pane -s '{right-of}' \; switch-client -T swap
+
         # Zoom into pane
         bind -n M-f resize-pane -Z
+
+        # Resize mode (Alt+r to enter, h/j/k/l to resize, Escape/Enter to exit)
+        bind -n M-r switch-client -T resize
+        bind -T resize h resize-pane -L 5 \; switch-client -T resize
+        bind -T resize j resize-pane -D 5 \; switch-client -T resize
+        bind -T resize k resize-pane -U 5 \; switch-client -T resize
+        bind -T resize l resize-pane -R 5 \; switch-client -T resize
 
         # Alt + number to switch to session N if it exists
         bind -n M-0 switch-client -t 0
