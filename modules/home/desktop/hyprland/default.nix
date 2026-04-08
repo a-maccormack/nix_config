@@ -183,9 +183,9 @@ with lib;
 
         input = {
           kb_model = "pc105";
-          kb_layout = "us,es";
-          kb_variant = "intl,";
-          kb_options = "grp:win_space_toggle,lv3:ralt_switch";
+          kb_layout = "es,us";
+          kb_variant = ",intl";
+          kb_options = "lv3:ralt_switch";
           follow_mouse = 1;
           repeat_rate = 50;
           repeat_delay = 300;
@@ -298,6 +298,7 @@ with lib;
         exec-once = [
           "hyprpaper"
           "hypridle"
+          "hyprctl switchxkblayout all 1"
         ];
       };
 
