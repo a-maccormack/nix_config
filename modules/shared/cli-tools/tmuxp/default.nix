@@ -16,7 +16,7 @@ with lib;
     # tmuxp project configurations
     xdg.configFile."tmuxp/nix-config.yaml".text = ''
       session_name: nix-config
-      start_directory: ~/Dev/nix_config
+      start_directory: ~/p/mac/nix_config
       windows:
         - window_name: dev
           layout: main-vertical
@@ -27,7 +27,7 @@ with lib;
 
     xdg.configFile."tmuxp/shinkansen.yaml".text = ''
       session_name: "shinkansen-dev"
-      start_directory: ~/shinkansen/shinkansen-monorepo
+      start_directory: ~/p/shinkansen/shinkansen-monorail
       windows:
         - window_name: shinkansen-monorail
           panes:
