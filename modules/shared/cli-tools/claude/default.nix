@@ -105,6 +105,7 @@ in
 
     home.file.".claude/settings.json".force = true;
     home.file.".claude/settings.json".text = builtins.toJSON {
+      effortLevel = "high";
       hooks = {
         Notification = [
           {
