@@ -60,12 +60,12 @@ in
 
     programs.zsh.initContent = ''
       ${erlangEnv}
-      . ${pkgs.asdf-vm}/share/asdf-vm/asdf.sh
+      . ${pkgs.asdf-vm}/etc/profile.d/asdf-prepare.sh
     '';
 
     programs.bash.initExtra = ''
       ${erlangEnv}
-      . ${pkgs.asdf-vm}/share/asdf-vm/asdf.sh
+      . ${pkgs.asdf-vm}/etc/profile.d/asdf-prepare.sh
     '';
 
     home.activation.asdfPlugins = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

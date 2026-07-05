@@ -14,7 +14,7 @@
   ];
 
   config = {
-    system.stateVersion = "25.11";
+    system.stateVersion = "26.05";
 
     # Networking
     networking = {
@@ -90,7 +90,7 @@
     };
 
     # Enable zsh system-wide
-    programs.adb.enable = true;
+    environment.systemPackages = [ pkgs.android-tools ];
     programs.zsh.enable = true;
 
     # Enable presets
@@ -122,7 +122,7 @@
             ../../modules/shared/import.nix
           ];
 
-          home.stateVersion = "25.11";
+          home.stateVersion = "26.05";
 
           # Enable home presets
           presets.home.apps.firefox.enable = true;

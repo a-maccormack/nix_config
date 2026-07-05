@@ -69,7 +69,7 @@ with lib;
         nil
 
         # Formatters
-        nodePackages.prettier
+        prettier
         stylua
         nixpkgs-fmt
       ];

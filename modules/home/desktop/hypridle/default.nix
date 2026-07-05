@@ -161,8 +161,13 @@ in
 
     # Hyprpaper configuration
     xdg.configFile."hypr/hyprpaper.conf".text = ''
-      preload = ${config.home.homeDirectory}/.config/wallpapers/background.png
-      wallpaper = ,${config.home.homeDirectory}/.config/wallpapers/background.png
+      splash = false
+
+      wallpaper {
+          monitor =
+          path = ${config.home.homeDirectory}/.config/wallpapers/background.png
+          fit_mode = cover
+      }
     '';
   };
 }

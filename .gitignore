@@ -19,6 +19,9 @@ secrets.nix
 result
 result-*
 
+# Nix runtime database (created when running nix commands from repo root)
+nix/
+
 # Editor files
 *.swp
 *.swo

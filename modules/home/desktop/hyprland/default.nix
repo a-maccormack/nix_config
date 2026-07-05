@@ -117,6 +117,7 @@ with lib;
     # Hyprland configuration
     wayland.windowManager.hyprland = {
       enable = true;
+      configType = "hyprlang";
       settings = {
         "$mod" = "SUPER";
         "$terminal" = "kitty";
@@ -177,9 +178,7 @@ with lib;
           ];
         };
 
-        dwindle = {
-          pseudotile = true;
-        };
+        dwindle = { };
 
         input = {
           kb_model = "pc105";
@@ -196,7 +195,11 @@ with lib;
 
         misc = {
           force_default_wallpaper = 0;
-          disable_hyprland_logo = true;
+          disable_splash_rendering = true;
+        };
+
+        ecosystem = {
+          no_update_news = true;
         };
 
         bind = [
@@ -208,7 +211,7 @@ with lib;
           "$mod, V, togglefloating,"
           "$mod, F, fullscreen,"
           # "$mod, P, pseudo,"
-          "$mod, S, togglesplit,"
+          # "$mod, S, togglesplit,"
 
           # Switch keyboard layout (US intl / Spanish)
           "$mod, I, exec, hyprctl switchxkblayout all next"
