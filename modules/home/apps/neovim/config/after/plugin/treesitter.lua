@@ -1,4 +1,4 @@
-require("nvim-treesitter.configs").setup({
+require("nvim-treesitter").setup({
 	-- Parsers are managed by Nix, so we don't need ensure_installed
 	-- All grammars are included via nvim-treesitter.withAllGrammars
 
