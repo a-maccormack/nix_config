@@ -14,11 +14,6 @@
       url = "github:nix-community/nix-index-database";
     };
 
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,7 +27,6 @@
       unstable,
       nix,
       nix-index-database,
-      nixos-generators,
       home-manager,
       ...
 
@@ -48,6 +42,17 @@
         "aarch64-linux"
         "aarch64-darwin"
       ];
+
+      mkInstallerIso =
+        module:
+        (nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs lib; };
+          modules = [
+            module
+            { boot.zfs.forceImportRoot = true; }
+          ];
+        }).config.system.build.isoImage;
 
       forEachSupportedSystem =
         f:
@@ -123,53 +128,10 @@
             '';
           };
 
-          iso = nixos-generators.nixosGenerate {
-            specialArgs = {
-              inherit inputs;
-              inherit lib;
-            };
-            system = "x86_64-linux";
-            format = "iso";
-            modules = [
-              ./systems/x86_64-iso
-            ];
-          };
-
-          vm-iso = nixos-generators.nixosGenerate {
-            specialArgs = {
-              inherit inputs;
-              inherit lib;
-            };
-            system = "x86_64-linux";
-            format = "iso";
-            modules = [
-              ./systems/x86_64-vm-iso
-            ];
-          };
-
-          homelab-iso = nixos-generators.nixosGenerate {
-            specialArgs = {
-              inherit inputs;
-              inherit lib;
-            };
-            system = "x86_64-linux";
-            format = "iso";
-            modules = [
-              ./systems/x86_64-homelab-iso
-            ];
-          };
-
-          desktop-iso = nixos-generators.nixosGenerate {
-            specialArgs = {
-              inherit inputs;
-              inherit lib;
-            };
-            system = "x86_64-linux";
-            format = "iso";
-            modules = [
-              ./systems/x86_64-desktop-iso
-            ];
-          };
+          iso = mkInstallerIso ./systems/x86_64-iso;
+          vm-iso = mkInstallerIso ./systems/x86_64-vm-iso;
+          homelab-iso = mkInstallerIso ./systems/x86_64-homelab-iso;
+          desktop-iso = mkInstallerIso ./systems/x86_64-desktop-iso;
         }
       );
     };
