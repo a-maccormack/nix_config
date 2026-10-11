@@ -109,7 +109,7 @@
         };
       };
 
-      formatter = forEachSupportedSystem ({ pkgs }: pkgs.nixfmt-rfc-style);
+      formatter = forEachSupportedSystem ({ pkgs }: pkgs.nixfmt);
 
       packages = forEachSupportedSystem (
         { pkgs }:
