@@ -45,6 +45,7 @@ with lib;
         name = "Adwaita-dark";
         package = pkgs.gnome-themes-extra;
       };
+      gtk4.theme = config.gtk.theme;
     };
 
     qt = {
@@ -302,7 +303,8 @@ with lib;
           "hyprpaper"
           "hypridle"
           "hyprctl switchxkblayout all 1"
-        ];
+        ]
+        ++ optional (!config.presets.home.desktop.hyprland-displays.enable) "waybar";
       };
 
       extraConfig = ''
