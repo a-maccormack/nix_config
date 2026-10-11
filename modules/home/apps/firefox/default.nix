@@ -13,6 +13,7 @@ with lib;
   config = mkIf config.presets.home.apps.firefox.enable {
     programs.firefox = {
       enable = true;
+      configPath = ".mozilla/firefox";
       policies = {
         Preferences = {
           "media.webrtc.camera.allow-pipewire" = {
