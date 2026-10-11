@@ -22,9 +22,9 @@ let
     libGL
     libGLU
     libglvnd
-    wxGTK32
+    wxwidgets_3_2
     # ODBC support
-    unixODBC
+    unixodbc
     # Java/jinterface support
     jdk
   ];
@@ -35,11 +35,11 @@ let
   # Erlang/kerl environment setup - exported directly in shell init
   erlangEnv = with pkgs; ''
     # asdf erlang build environment
-    export KERL_CONFIGURE_OPTIONS="--with-ssl=${openssl.out} --with-ssl-incl=${openssl.dev} --with-odbc=${unixODBC}"
+    export KERL_CONFIGURE_OPTIONS="--with-ssl=${openssl.out} --with-ssl-incl=${openssl.dev} --with-odbc=${unixodbc}"
     export KERL_BUILD_DOCS=no
-    export LDFLAGS="-L${ncurses.out}/lib -L${openssl.out}/lib -L${libGL}/lib -L${libGLU}/lib -L${unixODBC}/lib"
-    export CFLAGS="-O2 -g -I${ncurses.dev}/include -I${openssl.dev}/include -I${libglvnd.dev}/include -I${libGLU.dev}/include -I${unixODBC}/include"
-    export CPPFLAGS="-I${ncurses.dev}/include -I${openssl.dev}/include -I${libglvnd.dev}/include -I${libGLU.dev}/include -I${unixODBC}/include"
+    export LDFLAGS="-L${ncurses.out}/lib -L${openssl.out}/lib -L${libGL}/lib -L${libGLU}/lib -L${unixodbc}/lib"
+    export CFLAGS="-O2 -g -I${ncurses.dev}/include -I${openssl.dev}/include -I${libglvnd.dev}/include -I${libGLU.dev}/include -I${unixodbc}/include"
+    export CPPFLAGS="-I${ncurses.dev}/include -I${openssl.dev}/include -I${libglvnd.dev}/include -I${libGLU.dev}/include -I${unixodbc}/include"
     export LIBRARY_PATH="${libraryPath}''${LIBRARY_PATH:+:$LIBRARY_PATH}"
   '';
 in
